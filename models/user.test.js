@@ -107,6 +107,7 @@ describe("join group", function(){
             AND group_id = $2`, [user.rows[0].id, group.rows[0].id])
         expect(res.rows.length).toEqual(1)
     })
+
 })
 
 describe("rsvp", function(){
@@ -121,4 +122,12 @@ describe("rsvp", function(){
     })
 })
 
+
+describe("getAll", function(){
+    test("gets all users with their groups", async function(){
+        let usersList = await User.getAll()
+        expect(usersList[0].groups.length).toEqual(2)
+        expect(usersList[1].groups.length).toEqual(2)
+    })
+})
 

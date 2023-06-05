@@ -7,6 +7,7 @@ const {
   UnauthorizedError,
 } = require("../ExpressError");
 
+const { sqlForPartialUpdate } = require("../helpers/sql")
 const { BCRYPT_WORK_FACTOR } = require("../config.js");
 const app = require("../app");
 const { query } = require("express");
@@ -89,9 +90,10 @@ class User {
   static async get(username) {
     let user = await db.query(`SELECT * FROM users where username = $1`, [username])
     if (user.rows.length) {
-      return user.rows[0]
+      const { username, first_name, last_name } = user.rows[0]
+      return { username: username, firstName: first_name, lastName: last_name }
     }
-    throw new BadRequestError("user not found")
+    throw new NotFoundError("user not found")
   }
 
 
@@ -164,6 +166,51 @@ class User {
     }
 
     throw new BadRequestError("this user is already signed up for this event")
+  }
+
+  static async update(username, data) {
+    if (data.password) {
+      data.password = await bcrypt.hash(data.password, BCRYPT_WORK_FACTOR);
+    }
+
+    const checkForUser = await db.query(`SELECT * from users WHERE username = $1`, [username])
+    if (!checkForUser.rows.length) throw new NotFoundError("no such user")
+    const { setCols, values } = sqlForPartialUpdate(
+      data,
+      {
+        firstName: "first_name",
+        lastName: "last_name"
+      });
+    const usernameVarIdx = "$" + (values.length + 1);
+
+    const querySql = `UPDATE users 
+                      SET ${setCols} 
+                      WHERE username = ${usernameVarIdx} 
+                      RETURNING username,
+                                first_name AS "firstName",
+                                last_name AS "lastName",
+                                email`
+    const result = await db.query(querySql, [...values, username]);
+    const user = result.rows[0];
+
+    if (!user) throw new NotFoundError(`No user: ${username}`);
+
+    delete user.password;
+    return user;
+  }
+
+  static async remove(username) {
+    let result = await db.query(
+      `DELETE
+       FROM users
+       WHERE username = $1
+       RETURNING username`,
+      [username],
+    );
+    const user = result.rows[0];
+
+    if (!user) throw new NotFoundError(`No user: ${username}`);
+    return user;
   }
 }
 

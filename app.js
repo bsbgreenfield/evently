@@ -1,10 +1,11 @@
 const express = require('express')
 const cors = require('cors')
 const app = express();
-
+const {NotFoundError} = require("./ExpressError.js")
 const { authenticateJWT } = require("./middleware/auth");
 
 
+const userRoutes = require("./routes/users")
 const authRoutes = require("./routes/auth");
 const morgan = require("morgan");
 
@@ -14,6 +15,8 @@ app.use(morgan("tiny"));
 app.use(authenticateJWT);
 
 app.use("/auth", authRoutes);
+app.use("/users", userRoutes);
+
 /** Handle 404 errors -- this matches everything */
 app.use(function (req, res, next) {
     return next(new NotFoundError());

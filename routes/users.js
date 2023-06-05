@@ -14,9 +14,29 @@ const userUpdateSchema = require("../schemas/userUpdate.json");
 
 const router = express.Router();
 
+
+router.post("/", async function(req, res, next){
+    console.log("BODYYYYY",req.body)
+    try{
+        const validator = jsonschema.validate(req.body, userNewSchema)
+        if(!validator.valid){
+            const errs = validator.errors.map(e => e.stack);
+            throw new BadRequestError(errs);
+        }
+        const newUser = await User.register({...req.body});
+        const token = createToken(newUser)
+        return res.status(201).json({newUser, token});
+    } catch(err) {
+        return next(err)
+    }
+
+})
+
+
+
 router.get("/", ensureLoggedIn, async function (req, res, next) {
     try {
-        const users = await User.findAll();
+        const users = await User.getAll();
         return res.json({ users });
     } catch (err) {
         return next(err);
@@ -31,7 +51,6 @@ router.get("/:username", ensureLoggedIn, async function (req, res, next) {
         return next(err);
     }
 });
-
 
 /** PATCH /[username] { user } => { user }
  *
@@ -50,8 +69,8 @@ router.patch("/:username", ensureLoggedIn, async function (req, res, next) {
             const errs = validator.errors.map(e => e.stack);
             throw new BadRequestError(errs);
         }
-        // check if the user is admin OR the user being searched for is the logged in user
-        if (res.locals.user.username == req.params.username || res.locals.user.isAdmin) {
+        // check if the user being searched for is the logged in user
+        if (res.locals.user.username == req.params.username) {
             const user = await User.update(req.params.username, req.body);
             return res.json({ user });
         }
@@ -80,3 +99,6 @@ router.delete("/:username", ensureLoggedIn, async function (req, res, next) {
         return next(err);
     }
 });
+
+
+module.exports = router;

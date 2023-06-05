@@ -9,6 +9,7 @@ const {
 
 const { BCRYPT_WORK_FACTOR } = require("../config.js");
 const app = require("../app");
+const { query } = require("express");
 
 
 class User {
@@ -84,6 +85,22 @@ class User {
         const user = result.rows[0];
     
         return user;
+      }
+
+      static async get(username){
+        let user = await db.query(`SELECT * FROM users where username = $1`, [username])
+        if (user.rows.length){
+          return user.rows[0]
+        }
+        throw new BadRequestError("user not found")
+      }
+      static async joinGroup(username, group_id) {
+        let user = await this.get(username)
+        console.log(user)
+        await db.query(
+          `INSERT INTO users_groups
+              (user_id, group_id)
+              VALUES ($1, $2)`, [user.id, group_id])
       }
 }
 

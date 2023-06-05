@@ -32,15 +32,22 @@ async function commonBeforeAll() {
     ('g2'),
     ('g3')`);
 
+  let u1 = await db.query(`SELECT id from users WHERE username = 'u1'`)
+  let u2 = await db.query(`SELECT id from users WHERE username = 'u2'`)
+  let u3 = await db.query(`SELECT id from users WHERE username = 'u3'`)
+  let g1 = await db.query(`SELECT id from groups WHERE group_name = 'g1'`)
+  let g2 = await db.query(`SELECT id from groups WHERE group_name = 'g2'`)
+  let g3 = await db.query(`SELECT id from groups WHERE group_name = 'g3'`)
   await db.query(`
   INSERT INTO Users_Groups ( user_id, group_id)
   VALUES
-    (1, 1),
-    (1, 2),
-    (2, 1),
-    (2, 3),
-    (3, 2),
-    (3, 3)`)
+    ($1, $4),
+    ($1, $5),
+    ($2, $4),
+    ($2, $6),
+    ($3, $5),
+    ($3, $6)`, 
+    [u1.rows[0].id, u2.rows[0].id, u3.rows[0].id ,g1.rows[0].id, g2.rows[0].id, g3.rows[0].id])
 }
 
 async function commonBeforeEach() {

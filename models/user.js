@@ -102,6 +102,23 @@ class User {
               (user_id, group_id)
               VALUES ($1, $2)`, [user.id, group_id])
       }
+
+      static async rsvp(user_id, event_id){
+        let dup_check = await db.query(`
+        SELECT * FROM participant
+        WHERE event_id = $1 and user_id = $2 `, [event_id, user_id])
+
+        if (!dup_check.rows.length){
+          let participant = await db.query(
+            `INSERT INTO participant
+            (event_id, user_id)
+            VALUES 
+            ($1, $2)`, [event_id, user_id])
+            return participant.rows
+        }
+        
+        throw new BadRequestError("this user is already signed up for this event")
+      }
 }
 
 module.exports = User;

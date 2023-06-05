@@ -8,7 +8,7 @@ async function commonBeforeAll() {
   await db.query("DELETE FROM users");
   await db.query("DELETE FROM groups");
   await db.query("DELETE FROM events");
-  await db.query("DELETE FROM users");
+  await db.query("DELETE FROM participant");
   await db.query("DELETE FROM media");
   await db.query("DELETE FROM messages");
 

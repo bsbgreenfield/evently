@@ -116,7 +116,7 @@ describe("rsvp", function(){
        await User.rsvp(user.rows[0].id, event.rows[0].id)
        let row = await db.query(
         `SELECT * FROM participant WHERE
-         user_id = $1, group_id = $2`, [user.rows[0].id, event.rows[0].id])
+         user_id = $1 and event_id = $2`, [user.rows[0].id, event.rows[0].id])
         expect(row.rows.length).toEqual(1)
     })
 })

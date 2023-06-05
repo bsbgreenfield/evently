@@ -1,4 +1,3 @@
-"use strict";
 
 /** Routes for users. */
 
@@ -16,7 +15,6 @@ const router = express.Router();
 
 
 router.post("/", async function(req, res, next){
-    console.log("BODYYYYY",req.body)
     try{
         const validator = jsonschema.validate(req.body, userNewSchema)
         if(!validator.valid){

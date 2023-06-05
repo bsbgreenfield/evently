@@ -7,6 +7,7 @@ const { createToken } = require("../helpers/tokens");
 async function commonBeforeAll() {
   // noinspection SqlWithoutWhere
   await db.query("DELETE FROM users");
+  await db.query('DELETE FROM groups');
 
 
   await User.register({

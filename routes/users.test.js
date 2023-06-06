@@ -131,6 +131,7 @@ describe("GET /users/:username", function () {
         .get(`/users/u1`)
         .set("authorization", `Bearer ${u3Token}`);
     expect(resp.body).toEqual({user :{
+        id: expect.any(Number),
         username: "u1",
         firstName: "U1F",
         lastName: "U1L"
@@ -252,4 +253,20 @@ describe("DELETE /users/:username", function () {
   });
 });
 
-
+describe("PATCH /:username/join/:group_id", function(){
+    test("adds user to group", async function(){
+        let group = await db.query(`SELECT id from groups where group_name = 'g3'`)
+        let user = await db.query(`SELECT id from users where username = 'u1'`)
+        console.log(group)
+        const resp = await request(app)
+        .post(`/users/u1/join/${group.rows[0].id}`)
+        .send({})
+        .set("authorization", `Bearer ${u1Token}`)
+        expect(resp.statusCode).toEqual(201);
+        let res = await db.query(
+            `SELECT * from users_groups WHERE
+            user_id = $1 and group_id = $2`, [user.rows[0].id, group.rows[0].id])
+        expect(res.rows.length).toEqual(1)
+    })
+  
+})

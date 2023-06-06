@@ -35,6 +35,12 @@ async function commonBeforeAll() {
     isAdmin: true,
   });
 
+  await db.query(`
+  INSERT INTO Groups ( group_name)
+  VALUES
+    ('g1'),
+    ('g2'),
+    ('g3')`);
 
 }
 

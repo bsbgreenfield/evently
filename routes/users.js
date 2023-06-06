@@ -14,17 +14,17 @@ const userUpdateSchema = require("../schemas/userUpdate.json");
 const router = express.Router();
 
 
-router.post("/", async function(req, res, next){
-    try{
+router.post("/", async function (req, res, next) {
+    try {
         const validator = jsonschema.validate(req.body, userNewSchema)
-        if(!validator.valid){
+        if (!validator.valid) {
             const errs = validator.errors.map(e => e.stack);
             throw new BadRequestError(errs);
         }
-        const newUser = await User.register({...req.body});
+        const newUser = await User.register({ ...req.body });
         const token = createToken(newUser)
-        return res.status(201).json({newUser, token});
-    } catch(err) {
+        return res.status(201).json({ newUser, token });
+    } catch (err) {
         return next(err)
     }
 
@@ -89,7 +89,7 @@ router.patch("/:username", ensureLoggedIn, async function (req, res, next) {
 router.delete("/:username", ensureLoggedIn, async function (req, res, next) {
     try {
         const user = await User.remove(req.params.username);
-        if (res.locals.user.username != user.username && !res.locals.user.isLoggedInAdmin) {
+        if (res.locals.user.username != user.username) {
             throw new UnauthorizedError()
         }
         return res.json({ deleted: req.params.username });
@@ -98,5 +98,14 @@ router.delete("/:username", ensureLoggedIn, async function (req, res, next) {
     }
 });
 
+
+router.post("/:username/join/:group_id", ensureLoggedIn, async function (req, res, next){
+    try {
+        const resp = await User.joinGroup(req.params.username, req.params.group_id);
+        return res.status(201).json({ user_added: req.params.username, to_group: req.params.group_id })
+    } catch (err) {
+        next(err)
+    }
+});
 
 module.exports = router;

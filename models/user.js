@@ -90,8 +90,8 @@ class User {
   static async get(username) {
     let user = await db.query(`SELECT * FROM users where username = $1`, [username])
     if (user.rows.length) {
-      const { username, first_name, last_name } = user.rows[0]
-      return { username: username, firstName: first_name, lastName: last_name }
+      const { id, username, first_name, last_name } = user.rows[0]
+      return { id: id, username: username, firstName: first_name, lastName: last_name }
     }
     throw new NotFoundError("user not found")
   }
@@ -143,12 +143,18 @@ class User {
 
 
   static async joinGroup(username, group_id) {
+    console.log(username, group_id)
     let user = await this.get(username)
-
+    console.log(user)
     await db.query(
       `INSERT INTO users_groups
               (user_id, group_id)
               VALUES ($1, $2)`, [user.id, group_id])
+    let res = await db.query(
+      `SELECT user_id, group_id FROM users_groups WHERE 
+      user_id = $1 and group_id = $2`, [user.id, group_id])
+    console.log(res.rows)
+  return res.rows[0]
   }
 
   static async rsvp(user_id, event_id) {

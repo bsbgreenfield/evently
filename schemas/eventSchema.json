@@ -1,0 +1,52 @@
+{
+    "$id": "http://example.com/example.json",
+    "type": "object",
+    "default": {},
+    "title": "Root Schema",
+    "required": [
+        "group_id",
+        "event_name",
+        "event_date",
+        "event_location"
+    ],
+    "properties": {
+        "group_id": {
+            "type": "integer",
+            "default": 0,
+            "title": "The group_id Schema",
+            "examples": [
+                5
+            ]
+        },
+        "event_name": {
+            "type": "string",
+            "default": "",
+            "title": "The event_name Schema",
+            "examples": [
+                "test_event"
+            ]
+        },
+        "event_date": {
+            "type": "string",
+            "default": "",
+            "title": "The event_date Schema",
+            "examples": [
+                "01-01-2023"
+            ]
+        },
+        "event_location": {
+            "type": "string",
+            "default": "",
+            "title": "The event_location Schema",
+            "examples": [
+                "my_house"
+            ]
+        }
+    },
+    "examples": [{
+        "group_id": 5,
+        "event_name": "test_event",
+        "event_date": "01-01-2023",
+        "event_location": "my_house"
+    }]
+}

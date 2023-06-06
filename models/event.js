@@ -16,11 +16,14 @@ class Event {
          [group_id, event_name, event_date, event_location])
          if (!dup_check.rows.length){
             try{
+                console.log(group_id, event_name, event_date, event_location)
                 let event = await db.query(
                     `INSERT INTO events
                     (group_id, event_name, event_date, event_location)
                     VALUES 
-                    ($1, $2, $3, $4)`, [group_id, event_name, event_date, event_location])
+                    ($1, $2, $3, $4)
+                    RETURNING id, group_id, event_name, event_date, event_location`,
+                     [group_id, event_name, event_date, event_location])
                 return event.rows[0]
                 
             } catch {

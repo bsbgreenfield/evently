@@ -257,7 +257,6 @@ describe("PATCH /:username/join/:group_id", function(){
     test("adds user to group", async function(){
         let group = await db.query(`SELECT id from groups where group_name = 'g3'`)
         let user = await db.query(`SELECT id from users where username = 'u1'`)
-        console.log(group)
         const resp = await request(app)
         .post(`/users/u1/join/${group.rows[0].id}`)
         .send({})

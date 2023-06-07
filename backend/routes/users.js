@@ -9,13 +9,14 @@ const { BadRequestError, UnauthorizedError } = require("../ExpressError");
 const User = require("../models/user");
 const { createToken } = require("../helpers/tokens");
 const userNewSchema = require("../schemas/userNew.json");
+const userAuthSchema = require("../schemas/userAuth.json")
 const userUpdateSchema = require("../schemas/userUpdate.json");
 const invoiceSchema = require("../schemas/invoiceSchema.json")
 
 const router = express.Router();
 
 
-router.post("/", async function (req, res, next) {
+/* router.post("/", async function (req, res, next) {
     try {
         const validator = jsonschema.validate(req.body, userNewSchema)
         if (!validator.valid) {
@@ -31,7 +32,20 @@ router.post("/", async function (req, res, next) {
 
 })
 
+router.post("/login", async function (req, res, next){
+    try{
+        const validator = jsonschema.validate(req.body, userAuthSchema )
+        if (!validator.valid) {
+            const errs = validator.errors.map(e => e.stack);
+            throw new BadRequestError(errs);
+        }
+        const token = await User.authenticate(req.body.username, req.body.password)
+    }catch(err){
+        next(err)
+    }
+})
 
+ */
 
 router.get("/", ensureLoggedIn, async function (req, res, next) {
     try {

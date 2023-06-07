@@ -13,6 +13,7 @@ const userAuthSchema = require("../schemas/userAuth.json");
 const userRegisterSchema = require("../schemas/userNew.json");
 
 router.post("/token", async function (req, res, next) {
+  console.log("HERE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
     try {
       const validator = jsonschema.validate(req.body, userAuthSchema);
       if (!validator.valid) {

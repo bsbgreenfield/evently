@@ -28,6 +28,7 @@ class User {
     );
 
     const user = result.rows[0];
+    console.log("*************************************************",user)
     if (user) {
       // compare hashed password to a new hash from password
       const isValid = await bcrypt.compare(password, user.password);
@@ -61,7 +62,6 @@ class User {
     }
 
     const hashedPassword = await bcrypt.hash(password, BCRYPT_WORK_FACTOR);
-
     const result = await db.query(
       `INSERT INTO users
                (

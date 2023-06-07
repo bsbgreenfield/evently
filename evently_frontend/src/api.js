@@ -3,7 +3,7 @@ const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:3001";
 
 
 class EventlyApi {
-    static token = null;
+    static token;
 
     static async request(endpoint, data = {}, method = "get") {
         console.debug("API Call:", endpoint, data, method);
@@ -11,7 +11,7 @@ class EventlyApi {
         //there are multiple ways to pass an authorization token, this is how you pass it in the header.
         //this has been provided to show you another way to pass the token. you are only expected to read this code for this project.
         const url = `${BASE_URL}/${endpoint}`;
-        const headers = { Authorization: `Bearer ${JoblyApi.token}` };
+        const headers = { Authorization: `Bearer ${EventlyApi.token}` };
         const params = (method === "get")
             ? data
             : {};
@@ -27,11 +27,13 @@ class EventlyApi {
 
 
       static async register(user){
+        console.log(user)
         let res = await this.request(`auth/register`, user, "POST")
         return res.token;
       }
 
       static async login(user){
+        console.log(user)
         let res = await this.request('auth/token', user, "POST")
         return res.token
       }
@@ -39,6 +41,7 @@ class EventlyApi {
       static async updateUser(user){
         const {username} = user
         let res = await this.request(`/users/${username}/update`, user, "PATCH")
+        return res
       }
 
     static async deleteUser(user){
@@ -89,7 +92,7 @@ class EventlyApi {
       }
 
       static async requestMoney(invoice){
-        const {requester, payer} = invoice
+        const {requester} = invoice
         let res = await this.request(`/users/request/${requester}`, invoice, "POST")
         return res
       }

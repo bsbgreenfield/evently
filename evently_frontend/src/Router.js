@@ -1,5 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Routes, Route } from 'react-router-dom'
+import Homepage from "./Homepage";
+import Login from "./Login";
+import Signup from "./Signup";
+
 
 function Router(){
 
@@ -12,3 +16,5 @@ function Router(){
         </Routes>
     )
 }
+
+export default Router;

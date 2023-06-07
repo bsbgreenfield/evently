@@ -1,4 +1,4 @@
-import React from "react"
+import React, {useState, useEffect} from "react"
 import { BrowserRouter } from "react-router-dom"
 import Router from "./Router"
 import EventlyApi from "./api"
@@ -7,19 +7,22 @@ import jwt_decode from "jwt-decode"
 import { useLocalStorage } from "./Hooks";
 import userContext from "./UserContext";
 
+
 function App() {
 
   const [token, setToken] = useLocalStorage()
   const [currUser, setCurrUser] = useState(null)
 
-  const register = async (token) => {
-    let token = await EventlyApi.register(token)
-    setToken(token)
+  const registerUser = async (token) => {
+    console.log(token)
+    let userToken = await EventlyApi.register(token)
+    setToken(userToken)
   }
 
-  const login = async token => {
-    let token = await EventlyApi.login(token)
-    setToken(token)
+  const loginUser = async userData => {
+    console.log(userData)
+    let userToken = await EventlyApi.login(userData)
+    setToken(userToken)
   }
 
   const logoutUser = () => {
@@ -40,7 +43,7 @@ function App() {
   }, [token])
   return (
     <div className="App">
-      <userContext.Provider value={{ register, login, currUser }}>
+      <userContext.Provider value={{ registerUser, loginUser, logoutUser, currUser }}>
         <BrowserRouter>
           <Router />
         </BrowserRouter>

@@ -21,7 +21,6 @@ class Group {
         VALUES ($1)
         returning id, group_name`, [group_name]
        )
-       console.log(newGroup.rows[0])
        return newGroup.rows[0]
     }
 }

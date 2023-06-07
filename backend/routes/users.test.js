@@ -135,7 +135,8 @@ describe("GET /users/:username", function () {
         id: expect.any(Number),
         username: "u1",
         firstName: "U1F",
-        lastName: "U1L"
+        lastName: "U1L",
+        groups: expect.any(Array)
       }
     });
   });
@@ -217,7 +218,7 @@ describe("PATCH /users/:username", () => {
       .send({
         password: "new-password",
       })
-      .set("authorization", `Bearer ${u3Token}`);
+      .set("authorization", `Bearer ${u1Token}`);
     expect(resp.body).toEqual({
       user: {
         username: "u1",
@@ -234,10 +235,10 @@ describe("PATCH /users/:username", () => {
 /************************************** DELETE /users/:username */
 
 describe("DELETE /users/:username", function () {
-  test("works for admins", async function () {
+  test("works", async function () {
     const resp = await request(app)
       .delete(`/users/u1`)
-      .set("authorization", `Bearer ${u3Token}`);
+      .set("authorization", `Bearer ${u1Token}`);
     expect(resp.body).toEqual({ deleted: "u1" });
   });
 
@@ -280,7 +281,6 @@ describe("POST /:recipient/request", function () {
       .post("/users/request/u1")
       .send({ recipient: u1.rows[0].id, payer: u2.rows[0].id, amount: 999 })
       .set("authorization", `Bearer ${u1Token}`)
-    console.log(response.req)
     expect(response.body).toEqual({invoice:
       {
       recipient_id: u1.rows[0].id,
@@ -298,7 +298,6 @@ describe("POST /:recipient/request", function () {
       .post("/users/request/u1")
       .send({ recipient: u1.rows[0].id, payer: u2.rows[0].id, amount: 999, group_id: group.rows[0].id })
       .set("authorization", `Bearer ${u1Token}`)
-    console.log(response.req)
     expect(response.body).toEqual({invoice:
       {
       recipient_id: u1.rows[0].id,

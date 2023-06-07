@@ -49,11 +49,17 @@ async function commonBeforeAll() {
     ($3, $6)`, 
     [u1.rows[0].id, u2.rows[0].id, u3.rows[0].id ,g1.rows[0].id, g2.rows[0].id, g3.rows[0].id])
 
-  await db.query(
+  let e1 = await db.query(
       `INSERT INTO events
       (group_id, event_name, event_date, event_location)
       VALUES
-      ($1, $2, $3, $4)`, [g1.rows[0].id, 'testEvent', '12-01-2023', 'my_house'])
+      ($1, $2, $3, $4)
+      returning id`, [g1.rows[0].id, 'testEvent', '12-01-2023', 'my_house'])
+
+    await db.query(
+        `INSERT INTO participant (user_id, event_id)
+        VALUES ($1,$2)`, [u1.rows[0].id, e1.rows[0].id]
+        )
   }
 
 async function commonBeforeEach() {

@@ -26,11 +26,8 @@ afterAll(commonAfterAll);
 /************************************** authenticate */
 
 describe("authenticate", function () {
-    console.log("!!!!!!!!TESTING!!!!!!!!!!!!")
     test("works", async function () {
-        console.log('this is the first test')
         const user = await User.authenticate("u1", "password1");
-        console.log(user)
         expect(user).toEqual({
             username: "u1",
             firstName: "U1F",
@@ -110,11 +107,29 @@ describe("join group", function(){
 
 })
 
+describe("leave group", function(){
+    test("leaves", async function(){
+        let user = await db.query(`select id from users where username = $1`, ['u1'])
+        let group = await db.query(`select id from groups WHERE group_name = $1`, ['g1'])
+        let member = await db.query(
+            `SELECT * FROM users_groups WHERE user_id = $1 and group_id = $2`, 
+            [user.rows[0].id, group.rows[0].id]
+        )
+        expect(member.rows.length).toEqual(1)
+        await User.leaveGroup('u1', group.rows[0].id)
+        member = await db.query(
+            `SELECT * FROM users_groups WHERE user_id = $1 and group_id = $2`, 
+            [user.rows[0].id, group.rows[0].id]
+        )
+        expect(member.rows.length).toEqual(0)
+    })
+})
+
 describe("rsvp", function(){
     test("works", async function(){
-        let user = await db.query(`select id from users where username = $1`, ['u1'])
+        let user = await db.query(`select id from users where username = $1`, ['u2'])
         let event = await db.query(`select id from events WHERE event_name = $1`, ['testEvent'])
-       await User.rsvp(user.rows[0].id, event.rows[0].id)
+       await User.rsvp('u2', event.rows[0].id)
        let row = await db.query(
         `SELECT * FROM participant WHERE
          user_id = $1 and event_id = $2`, [user.rows[0].id, event.rows[0].id])
@@ -122,6 +137,21 @@ describe("rsvp", function(){
     })
 })
 
+describe("unrsvp", function(){
+    test("removes participant", async function(){
+        let user = await db.query(`select id from users where username = $1`, ['u1'])
+        let event = await db.query(`select id from events WHERE event_name = $1`, ['testEvent'])
+        let participant = await db.query(
+            `SELECT * from participant WHERE
+             user_id = $1 and event_id = $2`, [user.rows[0].id, event.rows[0].id])
+        expect(participant.rows.length).toEqual(1)
+        await User.unrsvp('u1', event.rows[0].id)
+        participant = await db.query(
+            `SELECT * from participant WHERE
+             user_id = $1 and event_id = $2`, [user.rows[0].id, event.rows[0].id])
+             expect(participant.rows.length).toEqual(0)
+    })
+})
 
 describe("getAll", function(){
     test("gets all users with their groups", async function(){
@@ -146,6 +176,13 @@ describe("invoices", function(){
 describe('get user', function(){
     test("can get a user with groups", async function(){
         let res = await User.get('u1')
-        console.log(res)
+        expect(res).toEqual( {
+            id: expect.any(Number),
+            username: 'u1',
+            firstName: 'U1F',
+            lastName: 'U1L',
+            groups: expect.any(Array)
+          }
+      )
     })
 })

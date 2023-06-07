@@ -69,6 +69,7 @@ router.patch("/:username", ensureLoggedIn, async function (req, res, next) {
             throw new BadRequestError(errs);
         }
         // check if the user being searched for is the logged in user
+        console.log("%%%%%%%%%%%%%%%%",res.locals.user.username, req.params.username)
         if (res.locals.user.username == req.params.username) {
             const user = await User.update(req.params.username, req.body);
             return res.json({ user });
@@ -100,7 +101,7 @@ router.delete("/:username", ensureLoggedIn, async function (req, res, next) {
 });
 
 
-router.post("/:username/join/:group_id", ensureLoggedIn, async function (req, res, next){
+router.post("/:username/join/:group_id", ensureLoggedIn, async function (req, res, next) {
     try {
         const resp = await User.joinGroup(req.params.username, req.params.group_id);
         return res.status(201).json({ user_added: req.params.username, to_group: req.params.group_id })
@@ -109,20 +110,17 @@ router.post("/:username/join/:group_id", ensureLoggedIn, async function (req, re
     }
 });
 
-router.post("/request/:recipient", ensureLoggedIn, async function(req, res, next){
-    try{
-        if (!jsonschema.validate(req.json, invoiceSchema)){
+router.post("/request/:recipient", ensureLoggedIn, async function (req, res, next) {
+    try {
+        if (!jsonschema.validate(req.json, invoiceSchema)) {
             throw new BadRequestError("invalid data")
         }
-        console.log("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^&&&&&&&&&&&",res.locals.user.username, req.params.recipient)
-        const {recipient, payer, amount} = req.body;
+        const { recipient, payer, amount } = req.body;
         if (res.locals.user.username == req.params.recipient) {
-            console.log("HERE")
             const invoice = await User.requestMoney(recipient, payer, amount);
-            console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$",invoice)
             return res.json({ invoice });
         }
-    } catch(err){
+    } catch (err) {
         next(err)
     }
 })

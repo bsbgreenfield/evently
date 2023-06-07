@@ -113,7 +113,6 @@ class User {
       for (let userObj of res.rows) {
         user.groups.push(userObj.group_id)
       }
-      console.log(user)
       const { id, username, firstName, lastName, groups } = user
       return { id, username, firstName, lastName, groups }
     }
@@ -178,7 +177,11 @@ class User {
     return res.rows[0]
   }
 
-  static async rsvp(user_id, event_id) {
+
+
+  static async rsvp(username, event_id) {
+    let u = await this.get(username)
+    let user_id = u.id
     let dup_check = await db.query(`
         SELECT * FROM participant
         WHERE event_id = $1 and user_id = $2 `, [event_id, user_id])
@@ -188,11 +191,31 @@ class User {
         `INSERT INTO participant
             (event_id, user_id)
             VALUES 
-            ($1, $2)`, [event_id, user_id])
-      return participant.rows
+            ($1, $2)
+            RETURNING event_id, user_id`, [event_id, user_id])
+      
+      return participant.rows[0]
     }
 
     throw new BadRequestError("this user is already signed up for this event")
+  }
+
+  static async unrsvp(username, event_id){
+    let u = await this.get(username)
+    let user_id = u.id
+    let dup_check = await db.query(`
+        SELECT * FROM participant
+        WHERE event_id = $1 and user_id = $2 `, [event_id, user_id])
+
+    if (dup_check.rows.length) {
+      let participant = await db.query(
+        `DELETE FROM participant
+        WHERE user_id = $1 and event_id = $2
+        `,[user_id, event_id]
+      )
+    return 
+    }
+    throw new BadRequestError(`User ${username} not signed up for this event`)
   }
 
   static async update(username, data) {
@@ -238,6 +261,21 @@ class User {
 
     if (!user) throw new NotFoundError(`No user: ${username}`);
     return user;
+  }
+
+  static async leaveGroup(username, group_id){
+    let user = await this.get('u1')
+    let dup_check = await db.query(
+      `SELECT * from users_groups 
+      WHERE user_id = $1 and group_id = $2`, [user.id, group_id])
+    if(dup_check.rows.length){
+      await db.query(
+        `DELETE FROM users_groups
+        WHERE user_id = $1 and group_id = $2`
+        , [user.id, group_id])
+      return
+    }
+    throw new BadRequestError(`user ${username} is not part of this group`)
   }
 
   static async requestMoney(recipient, payer, amount, event_id = null, group_id = null, description = null) {

@@ -44,9 +44,23 @@ async function commonBeforeAll() {
     ('g3')`);
 
   
-  await db.query(
+  let rsvp = await db.query(
     `INSERT INTO events (event_name, event_date, event_location)
-     VALUES ('new_event', '12-12-2024', 'outdoors')`
+     VALUES ('new_event', '12-12-2024', 'outdoors')
+     RETURNING id`
+  )
+
+  let user1 = await User.get('u1')
+  let group1 = await db.query(`SELECT * from groups where group_name = 'g1'`)
+
+  await db.query(
+    `INSERT INTO participant (user_id, event_id)
+    VALUES ($1, $2)`, [user1.id, rsvp.rows[0].id]
+  )
+
+  await db.query(
+    `INSERT INTO users_groups (user_id, group_id)
+    VALUES ($1, $2)`, [user1.id, group1.rows[0].id ]
   )
 
 }
@@ -65,8 +79,8 @@ async function commonAfterAll() {
 
 
 const u1Token = createToken({ username: "u1", first_name: "U1F", last_name:"U1L" });
-const u3Token = createToken({ username: "u1",first_name: "U2F ", last_name: "U2L"});
-const u2Token = createToken({ username: "u2", first_name: "U3F", last_name: "U3L"});
+const u3Token = createToken({ username: "u3",first_name: "U3F ", last_name: "U3L"});
+const u2Token = createToken({ username: "u2", first_name: "U2F", last_name: "U2L"});
 module.exports = {
   commonBeforeAll,
   commonBeforeEach,

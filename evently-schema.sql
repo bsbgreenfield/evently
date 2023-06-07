@@ -28,7 +28,7 @@ CREATE TABLE Users_Groups (
 -- Event Table
 CREATE TABLE Events (
   id serial PRIMARY KEY,
-  group_id INT NOT NULL,
+  group_id INT,
   event_name VARCHAR(100) NOT NULL,
   event_date DATE NOT NULL,
   event_location TEXT,
@@ -91,6 +91,14 @@ CREATE TABLE Polls (
   FOREIGN KEY (group_id) REFERENCES Groups(id) ON DELETE CASCADE
 );
 
+CREATE TABLE Options (
+  id serial PRIMARY KEY,
+  poll_id INT NOT NULL,
+  option_text VARCHAR(200) NOT NULL,
+  event_id INT,
+  FOREIGN KEY (poll_id) REFERENCES Polls(id) ON DELETE CASCADE,
+  FOREIGN KEY (event_id) REFERENCES Events(id) ON DELETE CASCADE
+);
 -- Vote Table
 CREATE TABLE Vote (
   id serial PRIMARY KEY,
@@ -103,11 +111,3 @@ CREATE TABLE Vote (
 );
 
 -- Poll Option Table
-CREATE TABLE Options (
-  id serial PRIMARY KEY,
-  poll_id INT NOT NULL,
-  option_text VARCHAR(200) NOT NULL,
-  event_id INT,
-  FOREIGN KEY (poll_id) REFERENCES Polls(id) ON DELETE CASCADE,
-  FOREIGN KEY (event_id) REFERENCES Events(id) ON DELETE CASCADE
-);

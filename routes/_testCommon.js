@@ -8,6 +8,7 @@ async function commonBeforeAll() {
   // noinspection SqlWithoutWhere
   await db.query("DELETE FROM users");
   await db.query('DELETE FROM groups');
+  await db.query("DELETE FROM events")
 
 
   await User.register({
@@ -41,6 +42,12 @@ async function commonBeforeAll() {
     ('g1'),
     ('g2'),
     ('g3')`);
+
+  
+  await db.query(
+    `INSERT INTO events (event_name, event_date, event_location)
+     VALUES ('new_event', '12-12-2024', 'outdoors')`
+  )
 
 }
 

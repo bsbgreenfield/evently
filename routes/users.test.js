@@ -26,15 +26,15 @@ afterAll(commonAfterAll);
 describe("POST /users", function () {
   test("works", async function () {
     const resp = await request(app)
-        .post("/users")
-        .send({
-          username: "u-new",
-          firstName: "First-new",
-          lastName: "Last-newL",
-          password: "password-new",
-          email: "new@email.com"
-        })
-        .set("authorization", `Bearer ${u3Token}`);
+      .post("/users")
+      .send({
+        username: "u-new",
+        firstName: "First-new",
+        lastName: "Last-newL",
+        password: "password-new",
+        email: "new@email.com"
+      })
+      .set("authorization", `Bearer ${u3Token}`);
     expect(resp.statusCode).toEqual(201);
     expect(resp.body).toEqual({
       newUser: {
@@ -49,25 +49,25 @@ describe("POST /users", function () {
 
   test("bad request if missing data", async function () {
     const resp = await request(app)
-        .post("/users")
-        .send({
-          username: "u-new",
-        })
-        .set("authorization", `Bearer ${u3Token}`);
+      .post("/users")
+      .send({
+        username: "u-new",
+      })
+      .set("authorization", `Bearer ${u3Token}`);
     expect(resp.statusCode).toEqual(400);
   });
 
   test("bad request if invalid data", async function () {
     const resp = await request(app)
-        .post("/users")
-        .send({
-          username: "u-new",
-          firstName: "First-new",
-          lastName: "Last-newL",
-          password: "password-new",
-          email: "not-an-email"
-        })
-        .set("authorization", `Bearer ${u3Token}`);
+      .post("/users")
+      .send({
+        username: "u-new",
+        firstName: "First-new",
+        lastName: "Last-newL",
+        password: "password-new",
+        email: "not-an-email"
+      })
+      .set("authorization", `Bearer ${u3Token}`);
     expect(resp.statusCode).toEqual(400);
   });
 
@@ -78,8 +78,8 @@ describe("POST /users", function () {
 describe("GET /users", function () {
   test("works", async function () {
     const resp = await request(app)
-        .get("/users")
-        .set("authorization", `Bearer ${u3Token}`);
+      .get("/users")
+      .set("authorization", `Bearer ${u3Token}`);
     expect(resp.body).toEqual({
       users: [
         {
@@ -110,15 +110,15 @@ describe("GET /users", function () {
 
   test("unauth for anon", async function () {
     const resp = await request(app)
-        .get("/users");
+      .get("/users");
     expect(resp.statusCode).toEqual(401);
   });
 
   test("fails: test next() handler", async function () {
     await db.query("DROP TABLE users CASCADE");
     const resp = await request(app)
-        .get("/users")
-        .set("authorization", `Bearer ${u3Token}`);
+      .get("/users")
+      .set("authorization", `Bearer ${u3Token}`);
     expect(resp.statusCode).toEqual(500);
   });
 });
@@ -128,21 +128,23 @@ describe("GET /users", function () {
 describe("GET /users/:username", function () {
   test("works", async function () {
     const resp = await request(app)
-        .get(`/users/u1`)
-        .set("authorization", `Bearer ${u3Token}`);
-    expect(resp.body).toEqual({user :{
+      .get(`/users/u1`)
+      .set("authorization", `Bearer ${u3Token}`);
+    expect(resp.body).toEqual({
+      user: {
         id: expect.any(Number),
         username: "u1",
         firstName: "U1F",
         lastName: "U1L"
-    }});
+      }
+    });
   });
 
 
   test("not found if user not found", async function () {
     const resp = await request(app)
-        .get(`/users/nope`)
-        .set("authorization", `Bearer ${u3Token}`);
+      .get(`/users/nope`)
+      .set("authorization", `Bearer ${u3Token}`);
     expect(resp.statusCode).toEqual(404);
   });
 
@@ -154,11 +156,11 @@ describe("PATCH /users/:username", () => {
 
   test("works for self", async function () {
     const resp = await request(app)
-        .patch(`/users/u1`)
-        .send({
-          firstName: "New",
-        })
-        .set("authorization", `Bearer ${u1Token}`);
+      .patch(`/users/u1`)
+      .send({
+        firstName: "New",
+      })
+      .set("authorization", `Bearer ${u1Token}`);
     expect(resp.body).toEqual({
       user: {
         username: "u1",
@@ -171,51 +173,51 @@ describe("PATCH /users/:username", () => {
 
   test("doesnt work for non self", async function () {
     const resp = await request(app)
-        .patch(`/users/u1`)
-        .send({
-          firstName: "New",
-        })
-        .set("authorization", `Bearer ${u2Token}`);
+      .patch(`/users/u1`)
+      .send({
+        firstName: "New",
+      })
+      .set("authorization", `Bearer ${u2Token}`);
     expect(resp.statusCode).toEqual(401);
   });
 
 
   test("unauth for anon", async function () {
     const resp = await request(app)
-        .patch(`/users/u1`)
-        .send({
-          firstName: "New",
-        });
+      .patch(`/users/u1`)
+      .send({
+        firstName: "New",
+      });
     expect(resp.statusCode).toEqual(401);
   });
 
   test("not found if no such user", async function () {
     const resp = await request(app)
-        .patch(`/users/nope`)
-        .send({
-          firstName: "Nope",
-        })
-        .set("authorization", `Bearer ${u3Token}`);
-        expect(resp.statusCode).toEqual(401);
+      .patch(`/users/nope`)
+      .send({
+        firstName: "Nope",
+      })
+      .set("authorization", `Bearer ${u3Token}`);
+    expect(resp.statusCode).toEqual(401);
   });
 
   test("bad request if invalid data", async function () {
     const resp = await request(app)
-        .patch(`/users/u1`)
-        .send({
-          firstName: 42,
-        })
-        .set("authorization", `Bearer ${u3Token}`);
+      .patch(`/users/u1`)
+      .send({
+        firstName: 42,
+      })
+      .set("authorization", `Bearer ${u3Token}`);
     expect(resp.statusCode).toEqual(400);
   });
 
   test("works: set new password", async function () {
     const resp = await request(app)
-        .patch(`/users/u1`)
-        .send({
-          password: "new-password",
-        })
-        .set("authorization", `Bearer ${u3Token}`);
+      .patch(`/users/u1`)
+      .send({
+        password: "new-password",
+      })
+      .set("authorization", `Bearer ${u3Token}`);
     expect(resp.body).toEqual({
       user: {
         username: "u1",
@@ -234,38 +236,76 @@ describe("PATCH /users/:username", () => {
 describe("DELETE /users/:username", function () {
   test("works for admins", async function () {
     const resp = await request(app)
-        .delete(`/users/u1`)
-        .set("authorization", `Bearer ${u3Token}`);
+      .delete(`/users/u1`)
+      .set("authorization", `Bearer ${u3Token}`);
     expect(resp.body).toEqual({ deleted: "u1" });
   });
 
   test("unauth for anon", async function () {
     const resp = await request(app)
-        .delete(`/users/u1`);
+      .delete(`/users/u1`);
     expect(resp.statusCode).toEqual(401);
   });
 
   test("not found if user missing", async function () {
     const resp = await request(app)
-        .delete(`/users/nope`)
-        .set("authorization", `Bearer ${u3Token}`);
+      .delete(`/users/nope`)
+      .set("authorization", `Bearer ${u3Token}`);
     expect(resp.statusCode).toEqual(404);
   });
 });
 
-describe("PATCH /:username/join/:group_id", function(){
-    test("adds user to group", async function(){
-        let group = await db.query(`SELECT id from groups where group_name = 'g3'`)
-        let user = await db.query(`SELECT id from users where username = 'u1'`)
-        const resp = await request(app)
-        .post(`/users/u1/join/${group.rows[0].id}`)
-        .send({})
-        .set("authorization", `Bearer ${u1Token}`)
-        expect(resp.statusCode).toEqual(201);
-        let res = await db.query(
-            `SELECT * from users_groups WHERE
+describe("PATCH /:username/join/:group_id", function () {
+  test("adds user to group", async function () {
+    let group = await db.query(`SELECT id from groups where group_name = 'g3'`)
+    let user = await db.query(`SELECT id from users where username = 'u1'`)
+    const resp = await request(app)
+      .post(`/users/u1/join/${group.rows[0].id}`)
+      .send({})
+      .set("authorization", `Bearer ${u1Token}`)
+    expect(resp.statusCode).toEqual(201);
+    let res = await db.query(
+      `SELECT * from users_groups WHERE
             user_id = $1 and group_id = $2`, [user.rows[0].id, group.rows[0].id])
-        expect(res.rows.length).toEqual(1)
-    })
-  
+    expect(res.rows.length).toEqual(1)
+  })
+
+})
+
+describe("POST /:recipient/request", function () {
+  test("requests money from u2 for u1 no optionals", async function () {
+    let u1 = await db.query(`SELECT id from users where username = 'u1'`)
+    let u2 = await db.query(`SELECT id from users where username = 'u2'`)
+    const response = await request(app)
+      .post("/users/request/u1")
+      .send({ recipient: u1.rows[0].id, payer: u2.rows[0].id, amount: 999 })
+      .set("authorization", `Bearer ${u1Token}`)
+    console.log(response.req)
+    expect(response.body).toEqual({invoice:
+      {
+      recipient_id: u1.rows[0].id,
+      payer_id: u2.rows[0].id,
+      amount: "999.00",
+      description_text: null
+    }
+  })
+  })
+  test("requests money from u2 for u1 with associated group", async function () {
+    let u1 = await db.query(`SELECT id from users where username = 'u1'`)
+    let u2 = await db.query(`SELECT id from users where username = 'u2'`)
+    let group = await db.query(`SELECT id from groups where group_name = 'g3'`)
+    const response = await request(app)
+      .post("/users/request/u1")
+      .send({ recipient: u1.rows[0].id, payer: u2.rows[0].id, amount: 999, group_id: group.rows[0].id })
+      .set("authorization", `Bearer ${u1Token}`)
+    console.log(response.req)
+    expect(response.body).toEqual({invoice:
+      {
+      recipient_id: u1.rows[0].id,
+      payer_id: u2.rows[0].id,
+      amount: "999.00",
+      description_text: null
+    }
+  })
+  })
 })

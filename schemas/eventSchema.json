@@ -4,7 +4,6 @@
     "default": {},
     "title": "Root Schema",
     "required": [
-        "group_id",
         "event_name",
         "event_date",
         "event_location"

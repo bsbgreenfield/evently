@@ -28,7 +28,6 @@ class User {
     );
 
     const user = result.rows[0];
-    console.log(user)
     if (user) {
       // compare hashed password to a new hash from password
       const isValid = await bcrypt.compare(password, user.password);
@@ -88,10 +87,35 @@ class User {
   }
 
   static async get(username) {
-    let user = await db.query(`SELECT * FROM users where username = $1`, [username])
-    if (user.rows.length) {
-      const { id, username, first_name, last_name } = user.rows[0]
-      return { id: id, username: username, firstName: first_name, lastName: last_name }
+    let res = await db.query(
+      `SELECT users.id,
+      users.username,
+       users.first_name AS "firstName",
+       users.last_name AS "lastName",
+       users.email as "email",
+       groups.id as "group_id"
+       FROM users 
+       LEFT JOIN users_groups
+       ON users.id = users_groups.user_id
+       LEFT JOIN groups
+       ON users_groups.group_id = groups.id 
+       WHERE users.username = $1`, [username])
+    if (res.rows.length) {
+      let user = {
+        "id": res.rows[0].id,
+        "username": res.rows[0].username,
+        "firstName": res.rows[0].firstName,
+        "lastName": res.rows[0].lastName,
+        "email": res.rows[0].email,
+        "groups": []
+      };
+
+      for (let userObj of res.rows) {
+        user.groups.push(userObj.group_id)
+      }
+      console.log(user)
+      const { id, username, firstName, lastName, groups } = user
+      return { id, username, firstName, lastName, groups }
     }
     throw new NotFoundError("user not found")
   }
@@ -143,9 +167,7 @@ class User {
 
 
   static async joinGroup(username, group_id) {
-    console.log(username, group_id)
     let user = await this.get(username)
-    console.log(user)
     await db.query(
       `INSERT INTO users_groups
               (user_id, group_id)
@@ -153,8 +175,7 @@ class User {
     let res = await db.query(
       `SELECT user_id, group_id FROM users_groups WHERE 
       user_id = $1 and group_id = $2`, [user.id, group_id])
-    console.log(res.rows)
-  return res.rows[0]
+    return res.rows[0]
   }
 
   static async rsvp(user_id, event_id) {
@@ -217,6 +238,25 @@ class User {
 
     if (!user) throw new NotFoundError(`No user: ${username}`);
     return user;
+  }
+
+  static async requestMoney(recipient, payer, amount, event_id = null, group_id = null, description = null) {
+    let user = await db.query(`SELECT username from users where id = $1`, [recipient])
+
+    let requestingUser = this.get(user.rows[0].username)
+    if (group_id && requestingUser.groups) {
+
+    }
+    let result = await db.query(
+      `INSERT INTO invoices
+      (group_id, payer_id, recipient_id, amount, description_text, event_id)
+      VALUES ($1, $2, $3, $4, $5, $6)
+      RETURNING payer_id, recipient_id, amount, description_text`,
+      [group_id, payer, recipient, amount, description, event_id]
+    )
+    const invoice = result.rows[0]
+    if (!invoice) throw new BadRequestError("Cannot process invoice request")
+    return invoice
   }
 }
 

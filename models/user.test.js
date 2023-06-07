@@ -131,3 +131,21 @@ describe("getAll", function(){
     })
 })
 
+describe("invoices", function(){
+    test("can request money", async function(){
+        let u2 = await db.query(`SELECT id from users where username = 'u2'`)
+        let u1 = await db.query(`SELECT id from users where username = 'u1'`)
+        let invoiceDetail = await User.requestMoney(u2.rows[0].id, u1.rows[0].id, 100, null, null, "this is a test payment")
+        expect(invoiceDetail.description_text).toEqual("this is a test payment")
+        let res = await db.query(`SELECT * from invoices where payer_id = $2 and recipient_id = $1`, [u2.rows[0].id, u1.rows[0].id])
+        expect(res.rows.length).toEqual(1)
+    })
+})
+
+
+describe('get user', function(){
+    test("can get a user with groups", async function(){
+        let res = await User.get('u1')
+        console.log(res)
+    })
+})

@@ -10,6 +10,7 @@ const User = require("../models/user");
 const { createToken } = require("../helpers/tokens");
 const userNewSchema = require("../schemas/userNew.json");
 const userUpdateSchema = require("../schemas/userUpdate.json");
+const invoiceSchema = require("../schemas/invoiceSchema.json")
 
 const router = express.Router();
 
@@ -107,5 +108,23 @@ router.post("/:username/join/:group_id", ensureLoggedIn, async function (req, re
         next(err)
     }
 });
+
+router.post("/request/:recipient", ensureLoggedIn, async function(req, res, next){
+    try{
+        if (!jsonschema.validate(req.json, invoiceSchema)){
+            throw new BadRequestError("invalid data")
+        }
+        console.log("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^&&&&&&&&&&&",res.locals.user.username, req.params.recipient)
+        const {recipient, payer, amount} = req.body;
+        if (res.locals.user.username == req.params.recipient) {
+            console.log("HERE")
+            const invoice = await User.requestMoney(recipient, payer, amount);
+            console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$",invoice)
+            return res.json({ invoice });
+        }
+    } catch(err){
+        next(err)
+    }
+})
 
 module.exports = router;

@@ -1,0 +1,69 @@
+{
+    "$id": "http://example.com/example.json",
+    "type": "object",
+    "default": {},
+    "title": "Root Schema",
+    "required": [
+        "recipient_id",
+        "payer_id",
+        "amount"
+    ],
+    "properties": {
+        "recipient_id": {
+            "type": "integer",
+            "default": 0,
+            "title": "The recipient_id Schema",
+            "examples": [
+                3
+            ]
+        },
+        "payer_id": {
+            "type": "integer",
+            "default": 0,
+            "title": "The payer_id Schema",
+            "examples": [
+                4
+            ]
+        },
+        "amount": {
+            "type": "integer",
+            "default": 0,
+            "title": "The amount Schema",
+            "examples": [
+                100
+            ]
+        },
+        "group_id": {
+            "type": "integer",
+            "default": 0,
+            "title": "The group_id Schema",
+            "examples": [
+                99
+            ]
+        },
+        "event_id": {
+            "type": "integer",
+            "default": 0,
+            "title": "The event_id Schema",
+            "examples": [
+                78
+            ]
+        },
+        "description_text": {
+            "type": "string",
+            "default": "",
+            "title": "The description_text Schema",
+            "examples": [
+                "this is a description"
+            ]
+        }
+    },
+    "examples": [{
+        "recipient_id": 3,
+        "payer_id": 4,
+        "amount": 100,
+        "group_id": 99,
+        "event_id": 78,
+        "description_text": "this is a description"
+    }]
+}

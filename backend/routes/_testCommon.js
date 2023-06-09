@@ -49,10 +49,23 @@ async function commonBeforeAll() {
      VALUES ('new_event', '12-12-2024', 'outdoors')
      RETURNING id`
   )
+  
 
   let user1 = await User.get('u1')
   let group1 = await db.query(`SELECT * from groups where group_name = 'g1'`)
 
+  await db.query(
+    `INSERT INTO events
+    (event_name, event_date, event_location, group_id)
+    VALUES
+    ('g1event', '12-13-2024', 'g1s house', $1 )`, [group1.rows[0].id])
+
+    await db.query(
+      `INSERT INTO events
+      (event_name, event_date, event_location, group_id)
+      VALUES
+      ('g1event2', '12-14-2024', 'g1s house again', $1 )`, [group1.rows[0].id])
+      
   await db.query(
     `INSERT INTO participant (user_id, event_id)
     VALUES ($1, $2)`, [user1.id, rsvp.rows[0].id]

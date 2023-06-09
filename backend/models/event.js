@@ -32,6 +32,22 @@ class Event {
        return new BadRequestError("This event has already been created")
       
     }
+
+    static async getByGroup(group_id){
+        let events = await db.query(
+            `SELECT 
+            events.event_name,
+            events.event_date, 
+            events.event_location,
+            groups.group_name as "from_group"
+            FROM events
+            LEFT JOIN groups
+            ON events.group_id = groups.id
+            WHERE group_id = $1`, [group_id]
+        )
+ 
+        return events.rows
+    }
 }
 
 module.exports = Event

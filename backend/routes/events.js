@@ -2,7 +2,7 @@ const jsonschema = require("jsonschema");
 
 const express = require("express");
 const { ensureLoggedIn } = require("../middleware/auth");
-const { BadRequestError, UnauthorizedError } = require("../ExpressError");
+const { BadRequestError, UnauthorizedError, NotFoundError } = require("../ExpressError");
 const User = require("../models/user");
 const Event = require("../models/event")
 const { createToken } = require("../helpers/tokens");
@@ -49,6 +49,16 @@ router.delete("/:event_id/unrsvp/:username", ensureLoggedIn, async function(req,
             return res.status(202).json({'status': 'deleted'})
         }
         throw new UnauthorizedError("Can only remove self from event")
+    }catch(err){
+        next(err)
+    }
+})
+
+router.get('/:group_id', ensureLoggedIn, async function(req, res, next){
+    try{
+        let events = await Event.getByGroup(req.params.group_id)
+        if(events.length) return res.json({events})
+        throw new NotFoundError(`No events found which are associated with group ${req.params.group_id}`)
     }catch(err){
         next(err)
     }

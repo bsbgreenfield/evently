@@ -7,10 +7,10 @@ import userContext from "./UserContext";
 
 
 function Router(){
-    const {myGroups} = useContext(userContext)
+    const {myGroups, myEvents} = useContext(userContext)
     return(
         <Routes>
-            <Route path="/" element= {<Homepage groups = {myGroups}/>}/>
+            <Route path="/" element= {<Homepage groups = {myGroups} events={myEvents}/>}/>
             <Route path="/login" element= {<Login/>}/>
             <Route path="/signup" element= {<Signup/>}/>
             <Route path="/*" element= {<Homepage/>}/>

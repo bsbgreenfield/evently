@@ -4,7 +4,7 @@ import "./Homepage.css"
 import GroupCard from "./GroupCard";
 import DispCard from "./DispCard";
 
-function Homepage({groups}) {
+function Homepage({groups, events}) {
 
     const { currUser } = useContext(userContext)
 
@@ -16,10 +16,8 @@ function Homepage({groups}) {
                 </div>
                 <div className="HomeWrapper">
                 <div className="HomeGrid">
-                   <DispCard styleType={"MyGroups"} header={"Groups"} data={groups} />
-                    <div className="MyEvents">
-                    <header> Events</header>
-                    </div>
+                   <DispCard  header={"Groups"} data={groups} />
+                   <DispCard header={"Events"} data={events}/>
                 </div>
             </div>
                 </div>

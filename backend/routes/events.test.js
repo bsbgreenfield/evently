@@ -83,3 +83,29 @@ describe("un rsvp for event", function(){
         expect(resp.body).toEqual({ 'status': 'deleted' })
     })
 })
+
+describe("get all events associated with an group", function(){
+    test("get events", async function(){
+        const g = await db.query(`SELECT id from groups where group_name = 'g1'`)
+        const resp = await request(app)
+        .get(`/events/${g.rows[0].id}`)
+        .send({})
+        .set("authorization", `Bearer ${u2Token}`)
+        expect(resp.body).toEqual({events:
+            [
+                {
+                    event_name: 'g1event',
+                    event_date: '2024-12-13T08:00:00.000Z',
+                    event_location: 'g1s house',
+                    from_group: 'g1'
+                  },
+                  {
+                    event_name: 'g1event2',
+                    event_date: '2024-12-14T08:00:00.000Z',
+                    event_location: 'g1s house again',
+                    from_group: 'g1'
+                  }
+            ]
+        })
+    })
+} )

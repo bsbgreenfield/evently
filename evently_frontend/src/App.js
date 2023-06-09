@@ -41,21 +41,27 @@ function App() {
         console.log(currUser)
         setCurrUser(currUser.user)
         const groups = [];
+        const groupEvents = []
         if(currUser.user.groups[0]){
           for(let group_id of currUser.user.groups){
             let group = await EventlyApi.getGroup(group_id)
+            let events = await EventlyApi.getEventByGroup(group_id)
+            groupEvents.push(...events.events)
             groups.push(group)
           }
           setMyGroups(groups)
+          setMyEvents(groupEvents)
+          
+          // replace this with only rsvd events, with a separate section for group events
+      
         }
-       
       }
     }
     setUser()
   }, [token])
   return (
     <div className="App">
-      <userContext.Provider value={{ registerUser, loginUser, logoutUser, currUser, myGroups }}>
+      <userContext.Provider value={{ registerUser, loginUser, logoutUser, currUser, myGroups, myEvents }}>
         <BrowserRouter>
           <NavBar/>
           <Router />

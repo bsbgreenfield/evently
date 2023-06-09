@@ -1,0 +1,7 @@
+.GroupCard{
+    width: 90%;
+}
+.MemberList{
+    max-height: 50px;
+    overflow-y: scroll;
+}

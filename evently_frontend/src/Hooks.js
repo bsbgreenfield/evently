@@ -12,5 +12,10 @@ const useLocalStorage = () => {
 
     return [state, setState] 
 }
+const useToggle = () => {
+    const [state, setState] = useState(false)
 
-export {useLocalStorage}
+    const toggle = () => setState(!state)
+    return [state, toggle]
+}
+export {useLocalStorage, useToggle}

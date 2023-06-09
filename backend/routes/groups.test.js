@@ -71,5 +71,29 @@ describe("DELETE /groups/:group_id/leave/:username", function(){
       }
     )
   })
- 
+})
+
+describe("GET /:group_id", function(){
+  test("gets a group", async function(){
+    let group = await db.query(
+      `SELECT id from groups where group_name = 'g1'`
+    )
+    const resp = await request(app)
+    .get(`/groups/${group.rows[0].id}`)
+    .send({})
+    .set("authorization", `Bearer ${u1Token}`)
+
+    expect(resp.body).toEqual({
+      group:  {
+        group_name: 'g1', 
+        members: [{
+          username: 'u1', 
+          first_name: 'U1F',
+          last_name: 'U1L'
+        }]
+      }
+    }
+     
+    )
+  })
 })

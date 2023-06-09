@@ -27,13 +27,11 @@ class EventlyApi {
 
 
       static async register(user){
-        console.log(user)
         let res = await this.request(`auth/register`, user, "POST")
         return res.token;
       }
 
       static async login(user){
-        console.log(user)
         let res = await this.request('auth/token', user, "POST")
         return res.token
       }
@@ -63,6 +61,11 @@ class EventlyApi {
       static async createGroup(group){
         let res =  await this.request(`groups/new`, group, "POST")
         return res
+      }
+
+      static async getGroup(group_id){
+        let res = await this.request(`groups/${group_id}`)
+        return res.group
       }
 
       static async joinGroup({username, group_id}){

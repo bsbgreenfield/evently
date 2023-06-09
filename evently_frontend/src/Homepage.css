@@ -1,0 +1,13 @@
+.HomeWrapper{
+    display: flex;
+    justify-content: center;
+}
+.HomeGrid{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
+    height: 80vh;
+    width: 80vw;
+    gap: 4vw;
+    margin-top: 4vh;
+}

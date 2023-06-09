@@ -1,18 +1,31 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import userContext from "./UserContext";
+import "./Homepage.css"
+import GroupCard from "./GroupCard";
+import DispCard from "./DispCard";
 
-function Homepage(){
+function Homepage({groups}) {
 
-    let {currUser } = useContext(userContext)
+    const { currUser } = useContext(userContext)
 
-    if(currUser){
-        return(
+    if (currUser) {
+        return (
             <div>
-                Welcome Back {currUser.username}
+                <div>
+                    Welcome Back {currUser.username}
+                </div>
+                <div className="HomeWrapper">
+                <div className="HomeGrid">
+                   <DispCard styleType={"MyGroups"} header={"Groups"} data={groups} />
+                    <div className="MyEvents">
+                    <header> Events</header>
+                    </div>
+                </div>
             </div>
+                </div>
         )
     }
-    return(
+    return (
         <div>
             HELLO
         </div>

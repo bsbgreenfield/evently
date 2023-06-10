@@ -32,6 +32,14 @@ function App() {
     setCurrUser(null)
   }
 
+  const joinGroup = async (group_id) => {
+    await EventlyApi.joinGroup({username: currUser.username, group_id: group_id})
+    const newGroups = [...currUser.groups, group_id]
+    setCurrUser({...currUser, groups: newGroups})
+    let newGroup = await EventlyApi.getGroup(group_id)
+    setMyGroups([...myGroups, newGroup ])
+  }
+
   useEffect(() => {
     const setUser = async () => {
       if(token){
@@ -51,17 +59,21 @@ function App() {
           }
           setMyGroups(groups)
           setMyEvents(groupEvents)
-          
           // replace this with only rsvd events, with a separate section for group events
-      
         }
       }
     }
     setUser()
   }, [token])
+
+  useEffect(() => {
+    const updateGroups = async () => {
+
+    }
+  })
   return (
     <div className="App">
-      <userContext.Provider value={{ registerUser, loginUser, logoutUser, currUser, myGroups, myEvents }}>
+      <userContext.Provider value={{joinGroup, registerUser, loginUser, logoutUser, currUser, myGroups, myEvents }}>
         <BrowserRouter>
           <NavBar/>
           <Router />

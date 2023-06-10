@@ -52,6 +52,7 @@ async function commonBeforeAll() {
   
 
   let user1 = await User.get('u1')
+  let user2 = await User.get('u2')
   let group1 = await db.query(`SELECT * from groups where group_name = 'g1'`)
 
   await db.query(
@@ -65,7 +66,7 @@ async function commonBeforeAll() {
       (event_name, event_date, event_location, group_id)
       VALUES
       ('g1event2', '12-14-2024', 'g1s house again', $1 )`, [group1.rows[0].id])
-      
+
   await db.query(
     `INSERT INTO participant (user_id, event_id)
     VALUES ($1, $2)`, [user1.id, rsvp.rows[0].id]
@@ -75,6 +76,13 @@ async function commonBeforeAll() {
     `INSERT INTO users_groups (user_id, group_id)
     VALUES ($1, $2)`, [user1.id, group1.rows[0].id ]
   )
+
+  await db.query(`INSERT INTO Messages (group_id, sender_id, content)
+  VALUES
+    ($1, $2, 'Hello, how is everyone?' ),
+    ($1, $3, 'I''m doing great, thanks!' ),
+    ($1, $3, 'Anyone up for an event this weekend?' )`
+    , [group1.rows[0].id, user1.id, user2.id])
 
 }
 

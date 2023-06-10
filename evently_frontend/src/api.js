@@ -68,6 +68,11 @@ class EventlyApi {
         return res.group
       }
 
+      static async getAllGroups(){
+        let res = await this.request(`groups`)
+        return res.groups
+      }
+
       static async joinGroup({username, group_id}){
         let res = await this.request(`groups/${group_id}/join/${username}`, {}, "POST")
         return res

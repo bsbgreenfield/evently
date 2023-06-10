@@ -1,7 +1,15 @@
 .GroupCard{
     width: 90%;
+    margin: 10px;
+    padding: 10px;
 }
-.MemberList{
-    max-height: 50px;
-    overflow-y: scroll;
+.JoinGroupButton{
+    position: absolute;
+    top: 2px;
+    right: 10%;
+}
+@media all and (max-width: 300px) {
+    .JoinGroupButton{
+        visibility: hidden;
+    }
 }

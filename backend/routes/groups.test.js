@@ -85,12 +85,19 @@ describe("GET /:group_id", function(){
 
     expect(resp.body).toEqual({
       group:  {
+        id: expect.any(Number),
         group_name: 'g1', 
         members: [{
           username: 'u1', 
           first_name: 'U1F',
           last_name: 'U1L'
-        }]
+        }],
+        messages: [
+          { username: 'u1', poster: expect.any(Number), content: 'Hello, how is everyone?' },
+          { username: 'u2',poster: expect.any(Number), content: "I'm doing great, thanks!" },
+          { username: 'u2',poster: expect.any(Number), content: 'Anyone up for an event this weekend?' }
+        ]
+  
       }
     }
      

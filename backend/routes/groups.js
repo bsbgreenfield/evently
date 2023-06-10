@@ -52,7 +52,7 @@ router.delete('/:group_id/leave/:username', ensureLoggedIn, async function (req,
     }
 })
 
-router.get('/:group_id', ensureLoggedIn, async function (req, res, next) {
+router.get('/:group_id', async function (req, res, next) {
     try{
        let group = await Group.get(req.params.group_id)
        if(group){
@@ -60,6 +60,15 @@ router.get('/:group_id', ensureLoggedIn, async function (req, res, next) {
        }
        throw new NotFoundError("No such group found")
     }catch(err){
+        next(err)
+    }
+})
+
+router.get('/', async function(req, res, next){
+    try{
+        let groups = await Group.getAll()
+        return res.json({groups})
+    } catch(err){
         next(err)
     }
 })

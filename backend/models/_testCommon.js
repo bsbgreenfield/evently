@@ -60,6 +60,13 @@ async function commonBeforeAll() {
         `INSERT INTO participant (user_id, event_id)
         VALUES ($1,$2)`, [u1.rows[0].id, e1.rows[0].id]
         )
+
+      await db.query(`INSERT INTO Messages (group_id, sender_id, content)
+      VALUES
+        ($1, $2, 'Hello, how is everyone?' ),
+        ($1, $3, 'I''m doing great, thanks!' ),
+        ($1, $3, 'Anyone up for an event this weekend?' )`
+        , [g1.rows[0].id, u1.rows[0].id, u2.rows[0].id])
   }
 
 async function commonBeforeEach() {

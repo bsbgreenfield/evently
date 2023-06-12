@@ -24,8 +24,9 @@ function NavBar() {
                 <NavItem>
                     <NavLink tag={Link} to={"/groups"}>Groups</NavLink>
                 </NavItem>
-
-              
+                <NavItem>
+                    <NavLink tag={Link} to={"/events"}>Events</NavLink>
+                </NavItem>
                 <NavItem>
                     <NavLink tag={Link} to={"/signup"}>Register</NavLink>
                 </NavItem>

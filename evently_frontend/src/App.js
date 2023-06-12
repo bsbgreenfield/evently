@@ -46,31 +46,26 @@ function App() {
         EventlyApi.token = token
         let user = jwt_decode(token)
         let currUser = await EventlyApi.getUser(user.username)
-        console.log(currUser)
         setCurrUser(currUser.user)
         const groups = [];
-        const groupEvents = []
+        // if user belongs to any groups, get the details for that group and store it in state
         if(currUser.user.groups[0]){
           for(let group_id of currUser.user.groups){
             let group = await EventlyApi.getGroup(group_id)
-            let events = await EventlyApi.getEventByGroup(group_id)
-            groupEvents.push(...events.events)
             groups.push(group)
           }
           setMyGroups(groups)
-          setMyEvents(groupEvents)
-          // replace this with only rsvd events, with a separate section for group events
+         //get the events associated with user, and add it to myEvents
+
+          let userEvents = await EventlyApi.getEventsByUser(currUser.user.id)
+          console.log(userEvents)
+          setMyEvents(userEvents)
         }
       }
     }
     setUser()
   }, [token])
 
-  useEffect(() => {
-    const updateGroups = async () => {
-
-    }
-  })
   return (
     <div className="App">
       <userContext.Provider value={{joinGroup, registerUser, loginUser, logoutUser, currUser, myGroups, myEvents }}>

@@ -89,8 +89,12 @@ class EventlyApi {
       }
 
       static async getEventByGroup(group_id){
-        let res = this.request(`events/${group_id}`)
+        let res = await this.request(`events/${group_id}`)
         return res
+      }
+      static async getEventsByUser(user_id){
+        let res = await this.request(`events/user/${user_id}`)
+        return res.events
       }
       static async rsvp(rsvpObj){
         const {event_id, user_id} = rsvpObj

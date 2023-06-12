@@ -4,7 +4,7 @@ import EventCard from "./EventCard";
 import "./DispCard.css"
 import {v4 as uuid} from "uuid"
 
-function DispCard({ styleType, header, data }) {
+function DispCard({ header, data }) {
     return (
         <div className="DispCard">
             <header>{header}</header>

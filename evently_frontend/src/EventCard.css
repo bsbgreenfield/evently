@@ -1,0 +1,21 @@
+.EventCard{
+    position: relative;
+    min-height: 20vh;
+}
+
+.card-header{
+    display: grid;
+    grid-template-columns: 5fr 1fr;
+    height: fit-content;
+}
+
+.event-location{
+    max-height: 10%;
+}
+.pin{
+    width: 1rem;
+    height: 1rem;
+}
+
+
+

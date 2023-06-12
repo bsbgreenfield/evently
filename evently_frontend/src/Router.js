@@ -6,6 +6,7 @@ import Signup from "./Signup";
 import userContext from "./UserContext";
 import GroupList from "./GroupsList";
 import GroupDetail from "./GroupDetail";
+import EventList from "./EventList";
 
 
 function Router(){
@@ -15,6 +16,7 @@ function Router(){
             <Route path="/" element= {<Homepage groups = {myGroups} events={myEvents}/>}/>
             <Route path="/groups" element= {<GroupList/>}/>
             <Route path="/groups/:group_id" element = {<GroupDetail/>}></Route>
+            <Route path="/events" element= {<EventList events={myEvents}/>}/>
             <Route path="/login" element= {<Login/>}/>
             <Route path="/signup" element= {<Signup/>}/>
             <Route path="/*" element= {<Homepage/>}/>

@@ -57,8 +57,19 @@ router.delete("/:event_id/unrsvp/:username", ensureLoggedIn, async function(req,
 router.get('/:group_id', ensureLoggedIn, async function(req, res, next){
     try{
         let events = await Event.getByGroup(req.params.group_id)
+        
         if(events.length) return res.json({events})
-        throw new NotFoundError(`No events found which are associated with group ${req.params.group_id}`)
+        else if (events != "pass")throw new NotFoundError(`No events found which are associated with group ${req.params.group_id}`)
+    }catch(err){
+        next(err)
+    }
+})
+
+router.get("/user/:user_id", ensureLoggedIn, async function(req, res, next){
+    try{
+        let events = await Event.getByUser(req.params.user_id)
+        if(events.length) return res.json({events})
+        return [];
     }catch(err){
         next(err)
     }

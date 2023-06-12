@@ -1,0 +1,20 @@
+.DateIcon{
+    text-align: center;
+    font-size: 0.4rem;
+     border: 1px solid black;
+    
+    width: fit-content;
+    display:grid;
+    grid-template-columns: 100%;
+    grid-template-rows: 2fr 7fr;
+    
+  }
+  .tstrip{
+    background-color: #f03232;
+  }
+  .dateWrapper{
+     padding-top: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    background-color: rgb(255, 255, 255);
+  }

@@ -1,13 +1,19 @@
 .DateIcon{
     text-align: center;
-    font-size: 0.4rem;
-     border: 1px solid black;
-    
+    position: relative;
+    border: 1px solid black;
+    font-size: 50%;
+    font-weight: 700;
     width: fit-content;
     display:grid;
     grid-template-columns: 100%;
-    grid-template-rows: 2fr 7fr;
-    
+    grid-template-rows: 2fr 7fr; 
+  }
+
+  .DateIcon:hover{
+    cursor: pointer;
+    transition: all 100ms;
+    transform: scale(2.5);
   }
   .tstrip{
     background-color: #f03232;

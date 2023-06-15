@@ -1,6 +1,8 @@
 .EventCard{
     position: relative;
+    width: 90%;
     min-height: 20vh;
+    margin: 10px;
 }
 
 .card-header{
@@ -15,6 +17,7 @@
 .pin{
     width: 1rem;
     height: 1rem;
+
 }
 
 

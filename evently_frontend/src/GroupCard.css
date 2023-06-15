@@ -1,13 +1,47 @@
+
 .GroupCard{
+    position: relative;
     width: 90%;
     margin: 10px;
     padding: 10px;
+    border: 0.5px solid grey;
+    background-color: white;
 }
 .JoinGroupButton{
     position: absolute;
     top: 2px;
     right: 10%;
 }
+.MemberLine{
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.8rem;
+}
+.icon-member-box{
+    display: flex;
+    gap: 1px;
+    color: rgb(105, 105, 105);
+    align-items: center;
+    font-size: 0.8rem;
+}
+.group-body-grid{
+    display: grid;
+    grid-template-columns: 2fr 3fr;
+    margin-top: 10px;
+}
+
+.message-preview-box{
+    background-color: aliceblue;
+   position:relative; 
+}
+.message-sender{
+   position: absolute;
+    top: -17px;
+    right: 1px;
+    font-size: 0.8rem;
+}
+
 @media all and (max-width: 300px) {
     .JoinGroupButton{
         visibility: hidden;

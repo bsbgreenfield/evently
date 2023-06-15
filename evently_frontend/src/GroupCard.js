@@ -4,6 +4,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { Card, CardBody, CardTitle, CardText, ListGroup , ListGroupItem, Button} from "reactstrap";
 import userContext from "./UserContext";
 import {v4 as uuid} from "uuid"
+import UserIcon from "./UserIcon";
 function GroupCard({group}){
     const navigate = useNavigate()
     const join = async (e) =>{
@@ -18,18 +19,26 @@ function GroupCard({group}){
         )
     }
     return(
-        <Card className="GroupCard" color="info">
-           <CardTitle>
-            <Link to={`/groups/${group.id}`}>{group.group_name}</Link>
+        <div className="GroupCard" color="rgba(0, 0, 255, 0.4)" >
+           <CardTitle >
+            <Link to={`/groups/${group.id}`} className="group-card-header">{group.group_name}</Link>
             {currUser.groups.includes(group.id) ?
             <span></span> : <Button onClick={join} className="JoinGroupButton">Join</Button>}
-            
            </CardTitle>
-           <ListGroup className="MemberList" >
-           Members: {group.members.map(member => <ListGroupItem key={uuid()}>{member.username}</ListGroupItem>)}
-           </ListGroup>
+           <div className="group-body-grid">
+           <div className="MemberLine">
+            Members: <div className="icon-member-box">{<UserIcon/>} +{group.members.length}</div> 
+            </div>
+            {group.messages ? 
+              <div className="message-preview-box">
+              {group.messages[group.messages.length -1].content}
+              <div className="message-sender">{group.messages[group.messages.length -1].username}</div>
+          </div> : <div></div>}
+          
+           </div>
+         
            
-        </Card>
+        </div>
     )
 }
 

@@ -22,10 +22,10 @@ function DateIcon({month, day}){
         </div>
     <div className= "dateWrapper"> 
        <div className="month">
-        Jun
+        {months[month]}
         </div>
         <div className = "day">
-           12
+           {day}
         </div>
     </div>
   

@@ -68,7 +68,6 @@ class Group {
         content: groupMessageObj.content
       })
     }
-    console.log(res)
     return res;
   }
 

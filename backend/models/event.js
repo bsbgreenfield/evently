@@ -77,7 +77,6 @@ class Event {
                     currEvent = eventObj.event_id
                 }
             }
-            console.log(`EVENTS BELONGING TO ${group_id}`, res)
             return res
         }
         return "pass";
@@ -106,7 +105,6 @@ class Event {
         let participatingIn = participantRows.rows.map(event => event.event_id)
         // loop through all group events, if that event is in the above array, add rsvp: true
         groupEvents.forEach(event => event["rsvp"] = participatingIn.includes(event.event_id))
-        console.log(groupEvents)
         return groupEvents;
 
     }

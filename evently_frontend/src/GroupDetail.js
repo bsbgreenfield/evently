@@ -29,7 +29,7 @@ function GroupDetail(){
                 {group.group_name}
                 <div className="GroupDetailGrid">
                     <div className="MessageBoard">
-                        {group.messages.map(message => <p>"{message.content}", - {message.username}</p>)}
+                        {group.messages.map(message => <p key={uuid()}>"{message.content}", - {message.username}</p>)}
                     </div>
                     <div className="Calendar">
                         <ListGroup>

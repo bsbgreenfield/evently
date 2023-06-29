@@ -84,7 +84,9 @@ class EventlyApi {
       }
 
       static async createEvent(event){
+        console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&", event)
         let res = await this.request(`events`, event, "POST")
+        console.log("$$$$$$$$$$$$$$$$$$$$", res)
         return res
       }
 
@@ -97,8 +99,8 @@ class EventlyApi {
         return res.events
       }
       static async rsvp(rsvpObj){
-        const {event_id, user_id} = rsvpObj
-        let res = await this.request(`events/${event_id}/join/${user_id}`, rsvpObj, "POST")
+        const {event_id, username} = rsvpObj
+        let res = await this.request(`events/${event_id}/join/${username}`, rsvpObj, "POST")
         return res
       }
 

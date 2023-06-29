@@ -3,6 +3,7 @@ import GroupCard from "./GroupCard";
 import EventlyApi from "./api";
 import userContext from "./UserContext";
 import "./GroupsList.css"
+import {v4 as uuid} from "uuid"
 
 function GroupList(){
  const {currUser} = useContext(userContext)
@@ -26,7 +27,7 @@ function GroupList(){
  }
  return(
     <div className="GroupsList">
-        {groups.map(group => <GroupCard group={group}/>)}
+        {groups.map(group => <GroupCard group={group} key={uuid()}/>)}
     </div>
    
  )

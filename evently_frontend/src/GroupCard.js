@@ -27,7 +27,7 @@ function GroupCard({group}){
            </CardTitle>
            <div className="group-body-grid">
            <div className="MemberLine">
-            Members: <div className="icon-member-box">{<UserIcon/>} +{group.members.length}</div> 
+            Members:<div className="icon-member-box">{<UserIcon/>} +{group.members.length}</div> 
             </div>
             {group.messages ? 
               <div className="message-preview-box">

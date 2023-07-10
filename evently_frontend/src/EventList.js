@@ -30,22 +30,14 @@ function EventList({ events }) {
         })
  
     return (
+        <div>
+        <Button onClick={setModal}>Add New Event</Button>
         <div className="EventListWrapper">
             {myGroups.map(group => {
                return <GroupContainer group={group} events={groupsOrdered[group.group_name]}/>
             })}
         </div>
-
-        /*  <>
-          <div className="RsvpList">
-             {events.map(event => {
-                 if(event.rsvp) return <EventCard event={event} key={uuid()}/>
-             })}
-         </div>
-         <div>
-             <Button onClick={setModal}>Create New</Button>
-         </div>
-         <Modal isOpen={modal} toggle={setModal}>
+        <Modal isOpen={modal} toggle={setModal}>
          <ModalHeader toggle={setModal}>Create Event</ModalHeader>
                  <ModalBody>
                     <EventForm createEvent={submitEvent}/>
@@ -56,6 +48,19 @@ function EventList({ events }) {
                      </Button>
                  </ModalBody>
          </Modal>
+        </div>
+        
+
+        /*  <>
+          <div className="RsvpList">
+             {events.map(event => {
+                 if(event.rsvp) return <EventCard event={event} key={uuid()}/>
+             })}
+         </div>
+         <div>
+             <Button onClick={setModal}>Create New</Button>
+         </div>
+        
          </>
          */
 

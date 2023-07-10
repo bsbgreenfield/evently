@@ -13,7 +13,7 @@
   .DateIcon:hover{
     cursor: pointer;
     transition: all 100ms;
-    transform: scale(2.5);
+    transform: scale(1.3);
   }
   .tstrip{
     background-color: #f03232;

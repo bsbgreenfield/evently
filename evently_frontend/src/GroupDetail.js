@@ -7,6 +7,7 @@ import "./GroupDetail.css"
 import userContext from "./UserContext";
 import Message from "./Message";
 import CalendarSlot from "./CalendarSlot";
+import UserBar from "./UserBar";
 
 function GroupDetail(){
     const params = useParams()
@@ -19,9 +20,9 @@ function GroupDetail(){
             setGroup(group)
             if(!events){
                 let groupEvents = await EventlyApi.getEventByGroup(params.group_id)
-                console.log(groupEvents)
                 setEvents(groupEvents)
             }
+            console.log(group)
          }
           getGroupData()
     }, [])
@@ -29,7 +30,8 @@ function GroupDetail(){
     if(group && events){
         return(
             <div>
-                {group.group_name}
+                <header>{group.group_name}</header>
+                <UserBar users={group.members}/>
                 <div className="GroupDetailGrid">
                     <div className="MessageBoard">
                         {group.messages.map(message => <Message key={uuid()} message={message}/>)}

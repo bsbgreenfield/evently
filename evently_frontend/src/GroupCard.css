@@ -15,7 +15,7 @@
 .MemberLine{
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.1rem;
     font-size: 0.8rem;
 }
 .icon-member-box{

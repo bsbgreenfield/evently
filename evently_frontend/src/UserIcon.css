@@ -5,7 +5,11 @@
     height: 2.5rem;
     width: 2.5rem;
     display: inline-block;
-    
+    position: relative;
+  margin-right: .5px;
+  }
+  .icon-wrapper:hover{
+    cursor: pointer;
   }
   .icon-body{
    position: relative;
@@ -31,4 +35,10 @@
     width: 1.3rem;
     background-color: rgba(28, 130, 28, 0.6);
     border-radius: 50% 50% 0 0 ;
+  }
+
+  .user-info-banner{
+    background-color: #efefef;
+    position: absolute;
+    top: -4px;
   }

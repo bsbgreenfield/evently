@@ -98,7 +98,9 @@ class Event {
         // add all events to array for which user is member
         for (let group of groupRows.rows) {
             let events = await this.getByGroup(group.group_id)
-            if (events.length) groupEvents.push(...events)
+            if (events.length && events instanceof Array){
+                groupEvents.push(...events)
+            }
         }
         let participantRows = await db.query(`SELECT event_id FROM participant WHERE user_id = $1`, [user_id])
         // get an array of all events user is participating in 

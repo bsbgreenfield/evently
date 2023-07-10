@@ -58,8 +58,9 @@ class EventlyApi {
         return res
       }
 
-      static async createGroup(group){
-        let res =  await this.request(`groups/new`, group, "POST")
+      static async createGroup(group_name){
+        console.log(group_name)
+        let res =  await this.request(`groups/new`,{group_name}, "POST")
         return res
       }
 

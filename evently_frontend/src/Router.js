@@ -11,6 +11,7 @@ import EventList from "./EventList";
 
 function Router(){
     const {myGroups, myEvents} = useContext(userContext)
+    console.log(myEvents)
     return(
         <Routes>
             <Route path="/" element= {<Homepage groups = {myGroups} events={myEvents}/>}/>

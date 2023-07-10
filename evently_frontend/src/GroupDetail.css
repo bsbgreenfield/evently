@@ -10,8 +10,19 @@
     grid-column-start: 1;
     grid-column-end: 4;
     border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
+
 .Calendar{
     grid-column-start: 4;
+    display: flex;
+    flex-direction: column;
+    gap: 10vh;
 
+}
+.Attending-Tag{
+    background-color: rgb(209, 247, 209);
+    border-radius: 6px;
 }

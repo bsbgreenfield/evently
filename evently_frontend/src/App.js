@@ -48,6 +48,16 @@ function App() {
     setMyEvents(userEvents)
   }
 
+  const createGroup = async (group_name) => {
+    await EventlyApi.createGroup(group_name)
+  }
+
+  const rsvp = async (event_id) => {
+      await EventlyApi.rsvp({event_id : event_id, username: currUser.username})
+      let userEvents = await EventlyApi.getEventsByUser(currUser.id)
+      setMyEvents(userEvents)
+  }
+
   useEffect(() => {
     const setUser = async () => {
       if(token){
@@ -66,7 +76,6 @@ function App() {
          //get the events associated with user, and add it to myEvents
 
           let userEvents = await EventlyApi.getEventsByUser(currUser.user.id)
-          console.log(groups)
           setMyEvents(userEvents)
         }
       }
@@ -76,7 +85,7 @@ function App() {
 
   return (
     <div className="App">
-      <userContext.Provider value={{createEvent, joinGroup, registerUser, loginUser, logoutUser, currUser, myGroups, myEvents }}>
+      <userContext.Provider value={{rsvp, createGroup, createEvent, joinGroup, registerUser, loginUser, logoutUser, currUser, myGroups, myEvents }}>
         <BrowserRouter>
           <NavBar/>
           <Router />

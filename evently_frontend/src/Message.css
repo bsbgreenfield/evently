@@ -1,0 +1,14 @@
+.content-body{
+    background-color: #efefef;
+    width: 80%;
+    position: relative;
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 5%;
+}
+.posting-user{
+    position: absolute;
+    right: 0;
+    top: -20px;
+    font-style: italic;
+}

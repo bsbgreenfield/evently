@@ -1,0 +1,12 @@
+.GroupContainer{
+    background-color: rgb(174, 174, 242);
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: 200px;
+    gap: 10px;
+    border-radius: 5px;
+    overflow-y: scroll;
+}
+.ContainerWrapper{
+    max-width: 80vw;
+}

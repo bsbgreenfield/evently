@@ -3,6 +3,7 @@
     width: 90%;
     min-height: 20vh;
     margin: 10px;
+    max-width: 200px;
 }
 
 .card-header{
@@ -19,6 +20,7 @@
     height: 1rem;
 
 }
+
 
 
 

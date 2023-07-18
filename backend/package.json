@@ -1,12 +1,12 @@
-{ 
+{
   "name": "evently",
-"version": "1.0.0",
-"main": "app.js",
-"author": "Benjamin Greenfield",
-"license": "ISC",
-"description": "",
-
+  "version": "1.0.0",
+  "main": "app.js",
+  "author": "Benjamin Greenfield",
+  "license": "ISC",
+  "description": "",
   "dependencies": {
+    "axios": "^1.4.0",
     "bcrypt": "^5.1.0",
     "colors": "^1.4.0",
     "cors": "^2.8.5",
@@ -22,5 +22,4 @@
     "test": "jest",
     "start": "node server.js"
   }
-
 }

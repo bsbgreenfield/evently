@@ -7,17 +7,24 @@ import userContext from "./UserContext";
 import GroupList from "./GroupsList";
 import GroupDetail from "./GroupDetail";
 import EventList from "./EventList";
+import EventlyApi from "./api";
 
 
 function Router(){
     const {myGroups, myEvents} = useContext(userContext)
-    console.log(myEvents)
+    const [currRecs, setCurrRecs] = useState([])
+    const getEventRecs = async (filters) => {
+        let recs = await EventlyApi.getTicketmasterRecs(filters)
+        let newRecs = [...recs.data._embedded.events]
+        setCurrRecs(newRecs)
+        
+      }
     return(
         <Routes>
             <Route path="/" element= {<Homepage groups = {myGroups} events={myEvents}/>}/>
             <Route path="/groups" element= {<GroupList/>}/>
             <Route path="/groups/:group_id" element = {<GroupDetail/>}></Route>
-            <Route path="/events" element= {<EventList events={myEvents}/>}/>
+            <Route path="/events" element= {<EventList events={myEvents} getEventRecs={getEventRecs} currRecs={currRecs}/>}/>
             <Route path="/login" element= {<Login/>}/>
             <Route path="/signup" element= {<Signup/>}/>
             <Route path="/*" element= {<Homepage/>}/>

@@ -9,6 +9,7 @@ const userRoutes = require("./routes/users")
 const authRoutes = require("./routes/auth");
 const groupRoutes = require('./routes/groups.js')
 const eventRoutes = require('./routes/events.js')
+const ticketmasterRoutes = require('./routes/ticketmaster.js')
 const morgan = require("morgan");
 
 app.use(cors());
@@ -19,7 +20,8 @@ app.use(authenticateJWT);
 app.use("/auth", authRoutes);
 app.use("/users", userRoutes);
 app.use("/groups", groupRoutes);
-app.use("/events", eventRoutes)
+app.use("/events", eventRoutes);
+app.use("/ticketmaster",ticketmasterRoutes);
 /** Handle 404 errors -- this matches everything */
 app.use(function (req, res, next) {
     return next(new NotFoundError());

@@ -7,14 +7,16 @@ import EventForm from "./eventForm";
 import userContext from "./UserContext";
 import { v4 as uuid } from "uuid"
 import GroupContainer from "./GroupContainer";
+import EventRecForm from "./EventRecForm";
+import EventRecTangle from "./RecTangle";
 
-function EventList({ events }) {
+function EventList({ events, getEventRecs, currRecs}) {
 
     const [modal, setModal] = useToggle();
 
-    const { createEvent, myGroups } = useContext(userContext)
+    const { createEvent, myGroups} = useContext(userContext)
 
-
+    console.log(currRecs)
     const submitEvent = (eventObj) => {
         createEvent(eventObj)
         setModal()
@@ -31,12 +33,16 @@ function EventList({ events }) {
  
     return (
         <div>
+             <EventRecForm getEventRecs={getEventRecs}/>
+             {currRecs.length ? 
+             currRecs.map(event => <EventRecTangle event={event}/>) : <>Hello!</>}
         <Button onClick={setModal}>Add New Event</Button>
         <div className="EventListWrapper">
             {myGroups.map(group => {
                return <GroupContainer group={group} events={groupsOrdered[group.group_name]}/>
             })}
         </div>
+       
         <Modal isOpen={modal} toggle={setModal}>
          <ModalHeader toggle={setModal}>Create Event</ModalHeader>
                  <ModalBody>

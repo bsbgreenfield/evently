@@ -22,7 +22,6 @@ function GroupDetail(){
                 let groupEvents = await EventlyApi.getEventByGroup(params.group_id)
                 setEvents(groupEvents)
             }
-            console.log(group)
          }
           getGroupData()
     }, [])

@@ -3,7 +3,6 @@ import EventCard from "./EventCard";
 import "./GroupContainer.css"
 
 function GroupContainer({group, events}){
-    console.log(group, events)
     return(
         <div className="ContainerWrapper">
             <header>{group.group_name}</header>

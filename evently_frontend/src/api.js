@@ -38,7 +38,7 @@ class EventlyApi {
 
       static async updateUser(user){
         const {username} = user
-        let res = await this.request(`/users/${username}/update`, user, "PATCH")
+        let res = await this.request(`users/${username}/update`, user, "PATCH")
         return res
       }
 
@@ -59,7 +59,6 @@ class EventlyApi {
       }
 
       static async createGroup(group_name){
-        console.log(group_name)
         let res =  await this.request(`groups/new`,{group_name}, "POST")
         return res
       }
@@ -85,9 +84,9 @@ class EventlyApi {
       }
 
       static async createEvent(event){
-        console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&", event)
+      
         let res = await this.request(`events`, event, "POST")
-        console.log("$$$$$$$$$$$$$$$$$$$$", res)
+
         return res
       }
 
@@ -112,8 +111,14 @@ class EventlyApi {
 
       static async requestMoney(invoice){
         const {requester} = invoice
-        let res = await this.request(`/users/request/${requester}`, invoice, "POST")
+        let res = await this.request(`users/request/${requester}`, invoice, "POST")
         return res
+      }
+
+      static async getTicketmasterRecs(filters){
+   
+        let res = await this.request(`ticketmaster/events`, filters, "get")
+        return res;
       }
 }
 

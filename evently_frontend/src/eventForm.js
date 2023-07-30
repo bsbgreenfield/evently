@@ -3,16 +3,48 @@ import userContext from "./UserContext";
 import { useNavigate } from "react-router-dom";
 import { Form, FormGroup, Input, Label, Button } from "reactstrap";
 
-function EventForm({createEvent}){
+function EventForm({createEvent, selectedEvent}){
     const navigate = useNavigate();
     const {myGroups} = useContext(userContext)
-    const initialState = {
-        group_id: null,
-        event_name : "",
-        event_date : "",
-        event_location: "",
-    
+    let initialState;
+
+    function formatDate(date){
+        console.log(date)
+        const d =  new Date(date)
+        console.log(d)
+        let month = '' + (d.getMonth() + 1)
+        let day = '' + d.getDate()
+        let year = d.getFullYear()
+
+    if (month.length < 2) 
+        month = '0' + month;
+    if (day.length < 2) 
+        day = '0' + day;
+
+    let res = [year, month, day].join('-');
+    console.log(res)
+    return res;
     }
+    if (Object.keys(selectedEvent)){
+        
+        initialState = {
+            group_id: null,
+            event_name : selectedEvent.name,
+            event_date : selectedEvent.dates.start.localDate ,
+            event_location: selectedEvent._embedded.venues[0].name,
+        
+        }
+    }
+    else{
+         initialState = {
+            group_id: null,
+            event_name : "",
+            event_date : "",
+            event_location: "",
+        
+        }
+    }
+   
     const [formData, setFormData] = useState(initialState);
 
 

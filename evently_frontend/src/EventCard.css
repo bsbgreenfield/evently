@@ -20,7 +20,11 @@
     height: 1rem;
 
 }
-
+.EventCardTitle{
+    width: 80%;
+    height: 7vh;
+    overflow-y: scroll;
+}
 
 
 

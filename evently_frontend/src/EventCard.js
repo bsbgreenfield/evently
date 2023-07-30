@@ -13,7 +13,7 @@ function EventCard({event}){
     return(
         <Card  className="EventCard">
                 <CardHeader >
-                    <div>
+                    <div className="EventCardTitle">
                     { event.event_name}
                     </div>
                     <DateIcon month={date.getMonth()} day={date.getDate()}/>

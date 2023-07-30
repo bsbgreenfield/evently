@@ -13,19 +13,20 @@ function UserIcon({user}){
     setToggleInfo(false)
   }
 
-    return(
+  return(
 
      
-       <div className = "icon-wrapper" onMouseEnter={displayInfo} onMouseLeave={removeInfo} >
-       
-          <div className = "icon-body">
-            <div className = "head"> </div>
-            <div className= "body"> </div>
-          </div>
-          {toggleInfo ? <div className="user-info-banner">{user.username}</div>: <></>}
-        </div>
-       
-    )
+    <div className = "icon-wrapper" onMouseEnter={displayInfo} onMouseLeave={removeInfo} >
+    
+       <div className = "icon-body">
+         <div className = "head"> </div>
+         <div className= "body"> </div>
+       </div>
+       {toggleInfo ? <div className="user-info-banner">{user.username}</div>: <></>}
+     </div>
+    
+ )
+
 }
 
 export default UserIcon;

@@ -15,9 +15,12 @@ function Router(){
     const [currRecs, setCurrRecs] = useState([])
     const getEventRecs = async (filters) => {
         let recs = await EventlyApi.getTicketmasterRecs(filters)
-        let newRecs = [...recs.data._embedded.events]
-        setCurrRecs(newRecs)
-        
+        console.log("%%%%%%%%%%%%%%", recs.data)
+        if (recs.data._embedded && recs.data._embedded.events.length){
+            let newRecs = [...recs.data._embedded.events]
+            setCurrRecs(newRecs)
+        }
+          
       }
     return(
         <Routes>

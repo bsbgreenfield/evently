@@ -55,7 +55,9 @@ function App() {
     let groupUsers = [...new Set (users)]
     if(groupUsers.length){
       for(let user of groupUsers){
-        EventlyApi.joinGroup({username: user, group_id: newGroup.group.id})
+        let invitee = await EventlyApi.getUser(user)
+        console.log(newGroup)
+        await EventlyApi.inviteToGroup({from_user: currUser.id, to_user: invitee.user.id, group_id: newGroup.group.id })
       }
     }
   }

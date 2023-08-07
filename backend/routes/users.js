@@ -124,6 +124,25 @@ router.post("/:username/join/:group_id", ensureLoggedIn, async function (req, re
     }
 });
 
+router.post("/invite", ensureLoggedIn, async function(req, res, next){
+    try{
+        const {from_user, to_user, group_id} = req.body
+        const resp = await User.inviteToGroup(from_user, to_user, group_id)
+        return res.status(201).json(resp)
+    } catch(err){
+        next(err)
+    }
+})
+
+router.get("/:id/invites",  async function(req, res, next){
+    try{
+        const resp = await User.getInvites(req.params.id)
+        return res.json({resp})
+    }catch(err){
+        next(err)
+    }
+})
+
 router.post("/request/:recipient", ensureLoggedIn, async function (req, res, next) {
     try {
         if (!jsonschema.validate(req.json, invoiceSchema)) {

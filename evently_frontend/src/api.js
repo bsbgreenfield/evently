@@ -58,6 +58,10 @@ class EventlyApi {
         return res;
       }
 
+      static async getInvites(user_id){
+        let res = await this.request(`users/${user_id}/invites`)
+        return res;
+      }
       static async createGroup(group_name){
         let res =  await this.request(`groups/new`,{group_name}, "POST")
         return res;
@@ -80,6 +84,11 @@ class EventlyApi {
 
       static async leaveGroup({username, group_id}){
         let res = await this.request(`groups/${group_id}/leave/${username}`, {}, "DELETE")
+        return res;
+      }
+
+      static async inviteToGroup(invite){
+        let res = await this.request(`users/invite`, invite, "POST")
         return res;
       }
 

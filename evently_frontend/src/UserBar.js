@@ -1,6 +1,7 @@
 import React from "react";
 import UserIcon from "./UserIcon";
 import "./UserBar.css"
+import {v4 as uuid} from "uuid"
 
 export default function UserBar({users}){
     return(

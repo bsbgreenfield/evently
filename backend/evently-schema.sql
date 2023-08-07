@@ -34,6 +34,15 @@ CREATE TABLE Events (
   event_location TEXT,
   FOREIGN KEY (group_id) REFERENCES Groups(id) ON DELETE CASCADE
 );
+CREATE TABLE Invites (
+  id serial PRIMARY KEY,
+  from_user INT,
+  to_user INT,
+  group_id INT,
+  FOREIGN KEY (from_user) REFERENCES Users(id) ON DELETE CASCADE,
+  FOREIGN KEY (to_user) REFERENCES Users(id) ON DELETE CASCADE,
+  FOREIGN KEY (group_id) REFERENCES Groups(id) ON DELETE CASCADE
+);
 
 -- Participant Table
 CREATE TABLE Participant (

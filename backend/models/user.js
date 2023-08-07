@@ -278,6 +278,39 @@ class User {
     throw new BadRequestError(`user ${username} is not part of this group`)
   }
 
+  static async inviteToGroup(from, to, group_id){
+    let dup_check = await db.query(
+      `SELECT * FROM Invites 
+      WHERE from_user=$1
+      AND to_user = $2
+      AND group_id = $3`, [from, to, group_id])
+    if(!dup_check.rows.length){
+      let invite = await db.query(
+        `
+        INSERT INTO Invites (from_user, to_user, group_id)
+        VALUES ($1, $2, $3)
+        RETURNING from_user, to_user, group_id`, [from, to , group_id]
+      )
+      return invite
+    }
+    else{
+      throw new BadRequestError(`This invite is already pending`)
+    }
+  
+  }
+
+  static async getInvites(user_id){
+    let sent = await db.query(`
+    SELECT * FROM Invites 
+    WHERE from_user = $1
+    `, [user_id])
+    let received = await db.query(`
+    SELECT * FROM Invites WHERE to_user = $1
+    `, [user_id])
+
+    return {"sent": sent.rows, "receieved": received.rows}
+  }
+
   static async requestMoney(recipient, payer, amount, event_id = null, group_id = null, description = null) {
     let user = await db.query(`SELECT username from users where id = $1`, [recipient])
 

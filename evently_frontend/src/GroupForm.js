@@ -36,7 +36,7 @@ function GroupForm({createGroup}){
 
     const addTempMember = username => {
         console.log(username)
-        if(username != "None" & !tempAddedMembers.includes(username)) setTempAddedMembers([...tempAddedMembers, username])
+        if(username != null & username != "None" & !tempAddedMembers.includes(username)) setTempAddedMembers([...tempAddedMembers, username])
     }
 
   

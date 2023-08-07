@@ -2,15 +2,15 @@ import React, { useState } from "react";
 import "./UserIcon.css"
 import { useToggle } from "./Hooks";
 import { useNavigate } from "react-router-dom";
-function UserIcon({user}){
+function UserIcon({user, active}){
 
   const [toggleInfo, setToggleInfo] = useToggle()
 
   const displayInfo = () =>{
-      setToggleInfo(true)
+      if(active) setToggleInfo(true)
   }
   const removeInfo = () => {
-    setToggleInfo(false)
+    if (active) setToggleInfo(false)
   }
 
   return(

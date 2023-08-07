@@ -8,6 +8,7 @@ import GroupList from "./GroupsList";
 import GroupDetail from "./GroupDetail";
 import EventList from "./EventList";
 import EventlyApi from "./api";
+import EventDetail from "./EventDetail";
 
 
 function Router(){
@@ -26,7 +27,8 @@ function Router(){
         <Routes>
             <Route path="/" element= {<Homepage groups = {myGroups} events={myEvents}/>}/>
             <Route path="/groups" element= {<GroupList/>}/>
-            <Route path="/groups/:group_id" element = {<GroupDetail/>}></Route>
+            <Route path="/groups/:group_id" element = {<GroupDetail/>}/>
+            <Route path="/events/:event_id" element= {<EventDetail/>}/>
             <Route path="/events" element= {<EventList events={myEvents} getEventRecs={getEventRecs} currRecs={currRecs}/>}/>
             <Route path="/login" element= {<Login/>}/>
             <Route path="/signup" element= {<Signup/>}/>

@@ -7,7 +7,7 @@ import DispCard from "./DispCard";
 function Homepage({groups, events}) {
 
     const { currUser } = useContext(userContext)
-
+    console.log(currUser)
     if (currUser) {
         return (
             <div>
@@ -23,7 +23,7 @@ function Homepage({groups, events}) {
                 </div>
         )
     }
-    return (
+    else return (
         <div>
             HELLO
         </div>

@@ -7,6 +7,7 @@ import { v4 as uuid } from "uuid"
 import { Button, Modal, ModalBody, ModalHeader } from "reactstrap";
 import { useToggle } from "./Hooks";
 import GroupForm from "./GroupForm";
+import AddUserForm from "./AddUserForm";
 
 function GroupList() {
    const [modal, setModal] = useToggle();
@@ -44,11 +45,7 @@ function GroupList() {
             <ModalBody>
                <GroupForm createGroup={createGroup}/>
             </ModalBody>
-            <ModalBody>
-               <Button color="secondary" onClick={setModal}>
-                  Cancel
-               </Button>
-            </ModalBody>
+
          </Modal>
       </div>
 

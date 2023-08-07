@@ -16,7 +16,6 @@ function EventList({ events, getEventRecs, currRecs }) {
     const [selectedEvent, setSelectedEvent] = useState({});
     const { createEvent, myGroups } = useContext(userContext)
 
-    console.log(currRecs)
     const submitEvent = (eventObj) => {
         createEvent(eventObj)
         setModal()

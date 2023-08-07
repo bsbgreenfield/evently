@@ -30,13 +30,15 @@ function NavBar() {
                 <NavItem>
                     <NavLink tag={Link} to={"/signup"}>Register</NavLink>
                 </NavItem>
-
+                <NavItem>
+                    <NavLink tag={Link} to={"/users"}>Users</NavLink>
+                </NavItem>
                 <NavItem>
                     {currUser ? <Button onClick={setModal} outline> Logout</Button>
                         : <NavLink tag={Link} to={"/login"}>Login</NavLink>}
 
                 </NavItem>
-
+               
             </Nav>
             <Modal isOpen={modal} toggle={setModal}>
                 <ModalHeader toggle={setModal}>Log out?</ModalHeader>

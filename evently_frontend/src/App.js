@@ -43,13 +43,21 @@ function App() {
 
   const createEvent = async (event) => {
     let newEvent = await EventlyApi.createEvent(event) // create event
+    console.log("&&&&&&&&&&&&&", newEvent)
     await EventlyApi.rsvp({ username: currUser.username, event_id: newEvent.event.id }) //rsvp currUser
     let userEvents = await EventlyApi.getEventsByUser(currUser.id)
     setMyEvents(userEvents)
   }
 
-  const createGroup = async (group_name) => {
-    await EventlyApi.createGroup(group_name)
+  const createGroup = async (group_name, users=[]) => {
+    let newGroup = await EventlyApi.createGroup(group_name)
+    users.push(currUser.username)
+    let groupUsers = [...new Set (users)]
+    if(groupUsers.length){
+      for(let user of groupUsers){
+        EventlyApi.joinGroup({username: user, group_id: newGroup.group.id})
+      }
+    }
   }
 
   const rsvp = async (event_id) => {

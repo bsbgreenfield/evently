@@ -16,13 +16,14 @@ class Event {
             [group_id, event_name, event_date, event_location])
         if (!dup_check.rows.length) {
             try {
+                console.log("$$$$$$$%%%%%%%%%%%%%%$$$$$$$",group_id)
                 let event = await db.query(
                     `INSERT INTO events
                     (group_id, event_name, event_date, event_location)
                     VALUES 
                     ($1, $2, $3, $4)
                     RETURNING id, group_id, event_name, event_date, event_location`,
-                    [group_id, event_name, event_date, event_location])
+                    [group_id == 0 ? null: group_id, event_name, event_date, event_location])
                 return event.rows[0]
 
             } catch {
@@ -98,7 +99,7 @@ class Event {
         // add all events to array for which user is member
         for (let group of groupRows.rows) {
             let events = await this.getByGroup(group.group_id)
-            if (events.length && events instanceof Array){
+            if (events.length && events instanceof Array) {
                 groupEvents.push(...events)
             }
         }
@@ -109,6 +110,34 @@ class Event {
         groupEvents.forEach(event => event["rsvp"] = participatingIn.includes(event.event_id))
         return groupEvents;
 
+    }
+
+    static async getEvent(event_id) {
+        let events = await db.query(
+            `SELECT 
+            events.id as "event_id",
+            events.event_name,
+            events.event_date, 
+            events.event_location,
+            events.group_id,
+            participant.user_id as "part_id"
+            FROM events
+            LEFT JOIN participant
+            ON events.id = participant.event_id
+            WHERE events.id = $1`, [event_id]
+        )
+        let res = {
+            event_id: events.rows[0].event_id,
+            event_name: events.rows[0].event_name,
+            event_date: events.rows[0].event_date,
+            event_location: events.rows[0].event_location,
+            group_id: events.rows[0].event_id,
+            participants: []
+        }
+        for (let eventObj of events.rows){
+            res.participants.push(eventObj.part_id)
+        }
+        return res
     }
 }
 

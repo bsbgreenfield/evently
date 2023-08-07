@@ -5,7 +5,7 @@ import "./UserBar.css"
 export default function UserBar({users}){
     return(
         <div className="UserBar">
-            {users.map(user => <UserIcon user={user}/>)}
+            {users.map(user => <UserIcon user={user} active={true}/>)}
         </div>
     )
 }

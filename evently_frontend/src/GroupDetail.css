@@ -26,3 +26,13 @@
     background-color: rgb(209, 247, 209);
     border-radius: 6px;
 }
+
+.invite-button:hover{
+    border: 1px solid black;
+    background-color: #efefef;
+    cursor: pointer;
+}
+.plus{
+    font-size: 2rem;
+    color: green;
+}

@@ -50,69 +50,74 @@ class EventlyApi {
 
       static async getUser(username){
         let res = await this.request(`users/${username}`)
-        return res
+        return res;
       }
       
       static async getAllUsers(){
         let res = await this.request(`users`)
-        return res
+        return res;
       }
 
       static async createGroup(group_name){
         let res =  await this.request(`groups/new`,{group_name}, "POST")
-        return res
+        return res;
       }
 
       static async getGroup(group_id){
         let res = await this.request(`groups/${group_id}`)
-        return res.group
+        return res.group;
       }
 
       static async getAllGroups(){
         let res = await this.request(`groups`)
-        return res.groups
+        return res.groups;
       }
 
       static async joinGroup({username, group_id}){
         let res = await this.request(`groups/${group_id}/join/${username}`, {}, "POST")
-        return res
+        return res;
       }
 
       static async leaveGroup({username, group_id}){
         let res = await this.request(`groups/${group_id}/leave/${username}`, {}, "DELETE")
-        return res
+        return res;
       }
 
       static async createEvent(event){
       
         let res = await this.request(`events`, event, "POST")
 
-        return res
+        return res;
       }
 
+      static async getEvent(event_id){
+        let res = await this.request(`events/detail/${event_id}`)
+        console.log("###########", res)
+        return res;
+      }
       static async getEventByGroup(group_id){
         let res = await this.request(`events/${group_id}`)
-        return res
+        return res;
       }
       static async getEventsByUser(user_id){
         let res = await this.request(`events/user/${user_id}`)
-        return res.events
+        return res.events;
       }
       static async rsvp(rsvpObj){
         const {event_id, username} = rsvpObj
         let res = await this.request(`events/${event_id}/join/${username}`, rsvpObj, "POST")
-        return res
+        return res;
       }
 
       static async unrsvp({event_id, user_id}){
         let res = await this.request(`events/${event_id}/unrsvp/${user_id}`, {}, "DELETE")
-        return res
+        return res;
       }
 
       static async requestMoney(invoice){
         const {requester} = invoice
         let res = await this.request(`users/request/${requester}`, invoice, "POST")
-        return res
+        return res;
       }
 
       static async getTicketmasterRecs(filters){

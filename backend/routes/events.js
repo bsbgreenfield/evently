@@ -67,10 +67,18 @@ router.get('/:group_id', ensureLoggedIn, async function(req, res, next){
 
 router.get("/user/:user_id", ensureLoggedIn, async function(req, res, next){
     try{
-        console.log(req.params.user_id)
         let events = await Event.getByUser(req.params.user_id)
         if(events.length) return res.json({events})
         return [];
+    }catch(err){
+        next(err)
+    }
+})
+
+router.get("/detail/:event_id", async function(req, res, next){
+    try{
+        let event = await Event.getEvent(req.params.event_id)
+        if(event) return res.json({event})
     }catch(err){
         next(err)
     }

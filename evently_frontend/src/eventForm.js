@@ -7,25 +7,8 @@ function EventForm({createEvent, selectedEvent}){
     const navigate = useNavigate();
     const {myGroups} = useContext(userContext)
     let initialState;
-
-    function formatDate(date){
-        console.log(date)
-        const d =  new Date(date)
-        console.log(d)
-        let month = '' + (d.getMonth() + 1)
-        let day = '' + d.getDate()
-        let year = d.getFullYear()
-
-    if (month.length < 2) 
-        month = '0' + month;
-    if (day.length < 2) 
-        day = '0' + day;
-
-    let res = [year, month, day].join('-');
-    console.log(res)
-    return res;
-    }
-    if (Object.keys(selectedEvent)){
+    console.log("*************",selectedEvent)
+    if (Object.keys(selectedEvent).length){
         
         initialState = {
             group_id: null,

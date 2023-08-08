@@ -15,7 +15,6 @@ function NavBar() {
         navigate("/")
       }
     
-      if(currUser){
         return (
             <>
                 <Nav pills>
@@ -29,14 +28,12 @@ function NavBar() {
                         <NavLink tag={Link} to={"/events"}>Events</NavLink>
                     </NavItem>
                     <NavItem>
-                        <NavLink tag={Link} to={"/signup"}>Register</NavLink>
-                    </NavItem>
-                    <NavItem>
                         <NavLink tag={Link} to={"/users"}>Users</NavLink>
                     </NavItem>
                     <NavItem>
-                        <NavLink tag = {Link} to={`/users/${currUser.id}/invites`}>Invites</NavLink>
+                        <NavLink tag={Link} to={"/signup"}>Register</NavLink>
                     </NavItem>
+                    
                     <NavItem>
                         {currUser ? <Button onClick={setModal} outline> Logout</Button>
                             : <NavLink tag={Link} to={"/login"}>Login</NavLink>}
@@ -60,10 +57,6 @@ function NavBar() {
             </>
     
         )
-      }
-      else{
-        return (<div>Loading...</div>)
-      }
     
 
 }

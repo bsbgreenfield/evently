@@ -3,7 +3,7 @@ import React from "react";
 import { Form, FormGroup, Input, Label, Button } from "reactstrap";
 import EventlyApi from "./api";
 
-function AddUserForm({group_id}){
+function AddUserForm({group_id, createNewGroup}){
     const [users, setUsers] = useState([])
     useEffect(() => async () => {
         let res = await EventlyApi.getAllUsers()
@@ -20,8 +20,8 @@ function AddUserForm({group_id}){
     }
     
     const handleSubmit = async e => {
-        let res = await EventlyApi.joinGroup({username: formData.user, group_id: group_id})
-
+        createNewGroup([formData.user])
+        
     }
     return(
         <Form>

@@ -10,13 +10,27 @@ import CalendarSlot from "./CalendarSlot";
 import UserBar from "./UserBar";
 import { useToggle } from "./Hooks";
 import AddUserForm from "./AddUserForm";
-
+import EventPopOut from "./EventPopOut";
 function GroupDetail(){
     const params = useParams()
     const [modal, setModal] = useToggle();
-    const {currUser} = useContext(userContext)
+    const [eventModal, setEventModal] = useToggle();
+    const {currUser, createGroup, rsvp} = useContext(userContext)
     const [group, setGroup] = useState()
     const [events, setEvents] = useState()
+    const [selectedEvent, setSelectedEvent] = useState({})
+    const createNewGroup = ( members) => {
+        createGroup(group.group_name, members)
+        setModal()
+     }
+     const openEventModal = event => {
+        setSelectedEvent(event)
+        setEventModal()
+     }
+     const rsvpForEvent = event_id => {
+        rsvp(event_id)
+        setEventModal()
+     }
     useEffect(() => {
         const getGroupData = async () => {
             let group =  await EventlyApi.getGroup(params.group_id)
@@ -30,7 +44,6 @@ function GroupDetail(){
     }, [])
    
     if(group && events){
-        console.log(events)
         return(
             <>
              <div>
@@ -46,17 +59,23 @@ function GroupDetail(){
                         <span className="plus">+</span><span>&nbsp;Invite Users</span>
                     </div>
                             {events.events != 'pass' ?
-                            events.events.map(event => <CalendarSlot key={uuid()} event={event}/>)
+                            events.events.map(event => <CalendarSlot key={uuid()} event={event} selectEvent = {openEventModal}/>)
                         : <div>No events yet</div>}
                     </div>
                 </div>
             </div>
             <Modal isOpen={modal} toggle={setModal}>
-            <ModalHeader toggle={setModal}> Add a user </ModalHeader>
-            <ModalBody>
-               <AddUserForm group_id={group.id}/>
-            </ModalBody>
-         </Modal>
+                <ModalHeader > Add a user </ModalHeader>
+                <ModalBody>
+                <AddUserForm group_id={group.id} createNewGroup={createNewGroup}/>
+                </ModalBody>
+            </Modal>
+            <Modal isOpen={eventModal} toggle={setEventModal}>
+                <ModalHeader > Event in {group.group_name} <Button color = "success" outline className="popout-rsvp" onClick={() => rsvpForEvent(selectedEvent.event_id)}>RSVP</Button></ModalHeader>
+                <ModalBody>
+                    <EventPopOut event = {selectedEvent}/>
+                </ModalBody>
+            </Modal>
             </>
            
         )

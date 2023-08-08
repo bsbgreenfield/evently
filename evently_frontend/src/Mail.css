@@ -1,0 +1,21 @@
+
+.mail-icon {
+    position: relative;
+    width: min-content;
+    display: inline-block;
+  }
+  
+  .red-dot {
+    position: absolute;
+    top: 0; /* Adjust this value to position the red dot vertically */
+    right: 0; /* Adjust this value to position the red dot horizontally */
+    background-color: red;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+  }
+  
+  .mail-img {
+    width: 2rem;
+    margin-left: 3rem;
+  }

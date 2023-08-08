@@ -4,7 +4,12 @@ import EventCard from "./EventCard";
 import "./DispCard.css"
 import {v4 as uuid} from "uuid"
 
+
 function DispCard({ header, data }) {
+    let rsvpEvents;
+    if(header == "Events"){
+        data = data.filter(event => event.rsvp == true)
+    } 
     return (
         <div className="DispCard">
             <header>{header}</header>

@@ -12,7 +12,6 @@ const router = express.Router();
 
 router.get("/events", ensureLoggedIn, async function(req, res, next){
     try{
-        console.log(req.query)
         let eventdata = await ticketmaster.getEvent(req.query)
         
         return res.status(200).json({"data": eventdata})

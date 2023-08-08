@@ -1,0 +1,8 @@
+.invite-line{
+    display: flex;
+    column-gap: 1rem;
+}
+.invite-line button{
+    width: 4rem;
+    font-size: 0.7rem;
+}

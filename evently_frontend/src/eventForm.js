@@ -7,7 +7,6 @@ function EventForm({createEvent, selectedEvent}){
     const navigate = useNavigate();
     const {myGroups} = useContext(userContext)
     let initialState;
-    console.log("*************",selectedEvent)
     if (Object.keys(selectedEvent).length){
         
         initialState = {
@@ -69,7 +68,6 @@ function EventForm({createEvent, selectedEvent}){
                     </Label>
                     <Input name="event_location" id="event_location" value={formData.event_location} onChange={handleChange}/>
                 </FormGroup>
-
                 <Button onClick={handleSubmit}>Create</Button>
             </Form>
         )

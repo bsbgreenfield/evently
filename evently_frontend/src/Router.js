@@ -17,7 +17,6 @@ function Router(){
     const [currRecs, setCurrRecs] = useState([])
     const getEventRecs = async (filters) => {
         let recs = await EventlyApi.getTicketmasterRecs(filters)
-        console.log("%%%%%%%%%%%%%%", recs.data)
         if (recs.data._embedded && recs.data._embedded.events.length){
             let newRecs = [...recs.data._embedded.events]
             setCurrRecs(newRecs)
@@ -33,7 +32,6 @@ function Router(){
             <Route path="/events" element= {<EventList events={myEvents} getEventRecs={getEventRecs} currRecs={currRecs}/>}/>
             <Route path="/login" element= {<Login/>}/>
             <Route path="/signup" element= {<Signup/>}/>
-            <Route path= "/users/:user_id/invites" element = {<Invites/>}/>
             <Route path="/*" element= {<Homepage/>}/>
             
         </Routes>

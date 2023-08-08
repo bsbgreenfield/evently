@@ -5,11 +5,12 @@ import { Form, FormGroup, Input, Label, Button } from "reactstrap";
 import EventlyApi from "./api";
 import TempUsersContainer from "./TempUsersContainer";
 
-function GroupForm({createGroup}){
+function GroupForm({createNewGroup, currUser}){
     const [users, setUsers] = useState([])
     useEffect(() => async () => {
         let res = await EventlyApi.getAllUsers()
-        setUsers(res.users)
+        let invitableUsers = res.users.filter(user => user.username != currUser.username)
+        setUsers(invitableUsers)
     },[])
     const navigate = useNavigate();
     const {myGroups} = useContext(userContext)
@@ -23,24 +24,27 @@ function GroupForm({createGroup}){
     const handleChange = (e) => {
         const {name, value } = e.target
         setFormData({ ...formData, [name]: value })
-        console.log(formData)
     }
 
     const handleSubmit = e => {
         e.preventDefault()
-        createGroup(formData.group_name, tempAddedMembers)
-        navigate('/groups')
+        if(formData.group_name.trim().length){
+            createNewGroup(formData.group_name, tempAddedMembers)
+            navigate('/groups')
+           
+        }
+        let groupNameField = document.getElementById("group_name")
+        groupNameField.style.border = "1px solid red"
     }
 
     const [tempAddedMembers, setTempAddedMembers] =useState([])
 
     const addTempMember = username => {
-        console.log(username)
         if(username != null & username != "None" & !tempAddedMembers.includes(username)) setTempAddedMembers([...tempAddedMembers, username])
     }
 
   
-    if(myGroups.length){
+
         return(
             <Form>
                 <FormGroup>
@@ -48,6 +52,7 @@ function GroupForm({createGroup}){
                     <Input name="group_name" id="group_name" value={formData.group_name} onChange={handleChange}/> 
                 </FormGroup>
                 <FormGroup>
+                    Send an invite to:
                 <TempUsersContainer users={tempAddedMembers}/>
                 </FormGroup>
                 <FormGroup>
@@ -61,12 +66,6 @@ function GroupForm({createGroup}){
                 <Button onClick={handleSubmit}>Create</Button>
             </Form>
         )
-    }
-    else{
-        return(
-            <div>Loading..</div>
-        )
-    }
    
 }
 

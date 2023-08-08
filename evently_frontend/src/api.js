@@ -58,6 +58,11 @@ class EventlyApi {
         return res;
       }
 
+      static async getUsersbyIds(idArray){
+        let res = await this.request(`users/popout/${idArray}`)
+        return res
+      }
+
       static async getInvites(user_id){
         let res = await this.request(`users/${user_id}/invites`)
         return res;
@@ -91,6 +96,10 @@ class EventlyApi {
         let res = await this.request(`users/invite`, invite, "POST")
         return res;
       }
+      static async removeInvites(group_id, user_id){
+        let res = await this.request(`users/invites/remove/${user_id}/${group_id}`, {}, "DELETE")
+        return res
+      }
 
       static async createEvent(event){
       
@@ -101,7 +110,6 @@ class EventlyApi {
 
       static async getEvent(event_id){
         let res = await this.request(`events/detail/${event_id}`)
-        console.log("###########", res)
         return res;
       }
       static async getEventByGroup(group_id){
@@ -110,6 +118,7 @@ class EventlyApi {
       }
       static async getEventsByUser(user_id){
         let res = await this.request(`events/user/${user_id}`)
+
         return res.events;
       }
       static async rsvp(rsvpObj){

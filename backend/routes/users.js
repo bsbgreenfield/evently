@@ -57,6 +57,7 @@ router.get("/", ensureLoggedIn, async function (req, res, next) {
 });
 
 router.get("/:username", ensureLoggedIn, async function (req, res, next) {
+    console.log("HERHERHEREE")
     try {
         const user = await User.get(req.params.username);
         return res.json({ user });
@@ -64,6 +65,16 @@ router.get("/:username", ensureLoggedIn, async function (req, res, next) {
         return next(err);
     }
 });
+
+router.get("/popout/:userList", ensureLoggedIn, async function (req, res, next){
+    try{
+        console.log(req.params, req.params.userList)
+        const userList = await User.getUsersByIds(req.params.userList)
+        return res.json({userList})
+    }catch(err){
+        next(err)
+    }
+})
 
 /** PATCH /[username] { user } => { user }
  *
@@ -83,7 +94,6 @@ router.patch("/:username", ensureLoggedIn, async function (req, res, next) {
             throw new BadRequestError(errs);
         }
         // check if the user being searched for is the logged in user
-        console.log("%%%%%%%%%%%%%%%%",res.locals.user.username, req.params.username)
         if (res.locals.user.username == req.params.username) {
             const user = await User.update(req.params.username, req.body);
             return res.json({ user });
@@ -138,6 +148,14 @@ router.get("/:id/invites",  async function(req, res, next){
     try{
         const resp = await User.getInvites(req.params.id)
         return res.json({resp})
+    }catch(err){
+        next(err)
+    }
+})
+router.delete("/invites/remove/:user_id/:group_id", async function(req, res, next){
+    try{
+        await User.removeInvite(req.params.group_id, req.params.user_id)
+        return res.status(200).json({"message": "deleted"})
     }catch(err){
         next(err)
     }

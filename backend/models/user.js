@@ -28,7 +28,6 @@ class User {
     );
 
     const user = result.rows[0];
-    console.log("*************************************************",user)
     if (user) {
       // compare hashed password to a new hash from password
       const isValid = await bcrypt.compare(password, user.password);
@@ -119,6 +118,13 @@ class User {
     throw new NotFoundError("user not found")
   }
 
+  static async getUsersByIds(idList){
+    console.log("ID LIST:",idList)
+    let userIdString = `(${idList})`
+    let userRows = await db.query(`SELECT * FROM users WHERE id IN ${userIdString}`)
+    console.log(userRows.rows)
+    return userRows.rows 
+  }
 
   static async getAll() {
     const result = await db.query(
@@ -301,14 +307,36 @@ class User {
 
   static async getInvites(user_id){
     let sent = await db.query(`
-    SELECT * FROM Invites 
+    SELECT 
+    from_user, to_user, group_id, users.username, groups.group_name
+    FROM Invites 
+    LEFT JOIN users
+    ON from_user = users.id
+    LEFT JOIN groups
+    ON groups.id = Invites.group_id
     WHERE from_user = $1
     `, [user_id])
     let received = await db.query(`
-    SELECT * FROM Invites WHERE to_user = $1
+    SELECT 
+    from_user, to_user, group_id, users.username, groups.group_name
+    FROM Invites 
+    LEFT JOIN users
+    ON from_user = users.id
+    LEFT JOIN groups
+    ON groups.id = Invites.group_id
+    WHERE to_user = $1
     `, [user_id])
 
     return {"sent": sent.rows, "receieved": received.rows}
+  }
+  static async removeInvite(group_id, user_id){
+    let removed = await db.query(
+      `
+      DELETE FROM Invites 
+      WHERE to_user = $1
+      AND group_id = $2
+      `, [user_id, group_id]
+    )
   }
 
   static async requestMoney(recipient, payer, amount, event_id = null, group_id = null, description = null) {

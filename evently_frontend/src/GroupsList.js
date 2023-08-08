@@ -13,7 +13,10 @@ function GroupList() {
    const [modal, setModal] = useToggle();
    const { currUser, createGroup} = useContext(userContext)
    const [groups, setGroups] = useState([])
-   
+   const createNewGroup = (group_name, members) => {
+      createGroup(group_name, members)
+      setModal()
+   }
    useEffect(() => {
       const getGroups = async function () {
          let allGroups = await EventlyApi.getAllGroups()
@@ -43,7 +46,7 @@ function GroupList() {
          <Modal isOpen={modal} toggle={setModal}>
             <ModalHeader toggle={setModal}> Create Group </ModalHeader>
             <ModalBody>
-               <GroupForm createGroup={createGroup}/>
+               <GroupForm createNewGroup={createNewGroup} currUser = {currUser}/>
             </ModalBody>
 
          </Modal>

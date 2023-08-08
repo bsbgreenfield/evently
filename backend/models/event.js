@@ -16,7 +16,6 @@ class Event {
             [group_id, event_name, event_date, event_location])
         if (!dup_check.rows.length) {
             try {
-                console.log("$$$$$$$%%%%%%%%%%%%%%$$$$$$$",group_id)
                 let event = await db.query(
                     `INSERT INTO events
                     (group_id, event_name, event_date, event_location)

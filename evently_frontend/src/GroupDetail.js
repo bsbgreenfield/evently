@@ -5,17 +5,17 @@ import { useParams } from "react-router-dom";
 import {v4 as uuid} from "uuid"
 import "./GroupDetail.css"
 import userContext from "./UserContext";
-import Message from "./Message";
 import CalendarSlot from "./CalendarSlot";
 import UserBar from "./UserBar";
 import { useToggle } from "./Hooks";
 import AddUserForm from "./AddUserForm";
 import EventPopOut from "./EventPopOut";
-function GroupDetail(){
+import MessageBoard from "./MessageBoard";
+function GroupDetail({currUser}){
     const params = useParams()
     const [modal, setModal] = useToggle();
     const [eventModal, setEventModal] = useToggle();
-    const {currUser, createGroup, rsvp} = useContext(userContext)
+    const {createGroup, rsvp} = useContext(userContext)
     const [group, setGroup] = useState()
     const [events, setEvents] = useState()
     const [selectedEvent, setSelectedEvent] = useState({})
@@ -39,21 +39,19 @@ function GroupDetail(){
                 let groupEvents = await EventlyApi.getEventByGroup(params.group_id)
                 setEvents(groupEvents)
             }
+            
          }
           getGroupData()
     }, [])
-   
+  
     if(group && events){
         return(
             <>
              <div>
                 <header>{group.group_name}</header>
                 <UserBar users={group.members}/>
-                
                 <div className="GroupDetailGrid">
-                    <div className="MessageBoard">
-                        {group.messages.map(message => <Message key={uuid()} message={message}/>)}
-                    </div>
+                    <MessageBoard messages={group.messages} currUser={currUser}/>
                     <div className="Calendar">
                     <div className="invite-button" onClick={setModal}>
                         <span className="plus">+</span><span>&nbsp;Invite Users</span>
@@ -80,9 +78,6 @@ function GroupDetail(){
            
         )
     }
-    return(
-        <div>loading...</div>
-    )
    
 }
 

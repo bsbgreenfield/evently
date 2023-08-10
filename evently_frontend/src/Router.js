@@ -12,7 +12,7 @@ import EventDetail from "./EventDetail";
 import Invites from "./Invites";
 
 
-function Router(){
+function Router({currUser}){
     const {myGroups, myEvents} = useContext(userContext)
     const [currRecs, setCurrRecs] = useState([])
     const getEventRecs = async (filters) => {
@@ -27,7 +27,7 @@ function Router(){
         <Routes>
             <Route path="/" element= {<Homepage groups = {myGroups} events={myEvents}/>}/>
             <Route path="/groups" element= {<GroupList/>}/>
-            <Route path="/groups/:group_id" element = {<GroupDetail/>}/>
+            <Route path="/groups/:group_id" element = {<GroupDetail currUser ={currUser}/>}/>
             <Route path="/events/:event_id" element= {<EventDetail/>}/>
             <Route path="/events" element= {<EventList events={myEvents} getEventRecs={getEventRecs} currRecs={currRecs}/>}/>
             <Route path="/login" element= {<Login/>}/>

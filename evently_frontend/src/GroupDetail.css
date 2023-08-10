@@ -1,19 +1,12 @@
 .GroupDetailGrid{
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
-    margin: 5vw;
+    margin: 1vh 5vw 5vw 5vw;
     gap: 0.5rem;
     height: 75vh;
 }
 
-.MessageBoard{
-    grid-column-start: 1;
-    grid-column-end: 4;
-    border: 1px solid black;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
+
 
 .Calendar{
     grid-column-start: 4;

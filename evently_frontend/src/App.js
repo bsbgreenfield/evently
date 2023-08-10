@@ -101,29 +101,33 @@ function App() {
     setUser()
   }, [token])
 
-  return (
-    <div className="App">
-      <userContext.Provider value={{
-        rsvp,
-        createGroup,
-        createEvent,
-        joinGroup,
-        registerUser,
-        loginUser,
-        logoutUser,
-        currUser,
-        myGroups,
-        myEvents, 
-      
-      }}>
-        <BrowserRouter>
-          <NavBar />
-          <Router />
-        </BrowserRouter>
-      </userContext.Provider>
-
-    </div>
-  );
+  if(!currUser) return <>Loading...</>
+  else{
+    return (
+      <div className="App">
+        <userContext.Provider value={{
+          rsvp,
+          createGroup,
+          createEvent,
+          joinGroup,
+          registerUser,
+          loginUser,
+          logoutUser,
+          currUser,
+          myGroups,
+          myEvents, 
+        
+        }}>
+          <BrowserRouter>
+            <NavBar />
+            <Router currUser = {currUser}/>
+          </BrowserRouter>
+        </userContext.Provider>
+  
+      </div>
+    );
+  }
+ 
 }
 
 export default App;

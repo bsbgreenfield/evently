@@ -17,7 +17,7 @@ class User {
   static async authenticate(username, password) {
     // try to find the user first
     const result = await db.query(
-      `SELECT username,
+      `SELECT username, id,
                       password,
                       first_name AS "firstName",
                       last_name AS "lastName",
@@ -70,7 +70,7 @@ class User {
                 last_name,
                 email)
                VALUES ($1, $2, $3, $4, $5)
-               RETURNING username, first_name AS "firstName", last_name AS "lastName", email`,
+               RETURNING id, username, first_name AS "firstName", last_name AS "lastName", email`,
       [
         username,
         hashedPassword,
@@ -356,6 +356,19 @@ class User {
     const invoice = result.rows[0]
     if (!invoice) throw new BadRequestError("Cannot process invoice request")
     return invoice
+  }
+
+  static async sendMessage(user_id, group_id, content){
+    const date = new Date()
+
+    let newMessage = await db.query(`
+    INSERT INTO messages 
+    (group_id, sender_id, content, time_sent)
+    VALUES ($1, $2, $3, $4)
+    returning group_id, sender_id, content
+    `, [group_id, user_id, content, date])
+
+    return newMessage.rows[0]
   }
 }
 

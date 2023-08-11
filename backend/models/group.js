@@ -45,7 +45,8 @@ class Group {
       LEFT JOIN messages 
       ON groups.id = messages.group_id
       LEFT JOIN users ON messages.sender_id = users.id
-      WHERE groups.id = $1`, [group_id]
+      WHERE groups.id = $1
+      order by messages.time_sent asc`, [group_id]
     )
     let res = {
       id: group.rows[0].group_id,

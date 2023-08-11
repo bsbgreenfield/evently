@@ -1,8 +1,7 @@
 import React from "react";
 import "./Message.css"
 function Message({message, currUser}){
-console.log(message)
-    if(message.username != currUser.username){
+    if( currUser && message.username != currUser.username){
         return(
             <div className="otherUserMessage">
                 <div className="content-body other-background">

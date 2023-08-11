@@ -72,6 +72,11 @@ function App() {
     setMyEvents(userEvents)
   }
 
+  const sendMessage = async (user_id, group_id, content) =>{
+    const data = {user_id, group_id, content}
+    let msg = await EventlyApi.sendMessage(data)
+    console.log(msg)
+  }
  
 
   useEffect(() => {
@@ -101,8 +106,7 @@ function App() {
     setUser()
   }, [token])
 
-  if(!currUser) return <>Loading...</>
-  else{
+  
     return (
       <div className="App">
         <userContext.Provider value={{
@@ -113,6 +117,7 @@ function App() {
           registerUser,
           loginUser,
           logoutUser,
+          sendMessage,
           currUser,
           myGroups,
           myEvents, 
@@ -126,7 +131,7 @@ function App() {
   
       </div>
     );
-  }
+  
  
 }
 

@@ -143,6 +143,11 @@ class EventlyApi {
         let res = await this.request(`ticketmaster/events`, filters, "get")
         return res;
       }
+
+      static async sendMessage(messageData){
+        let res = await this.request(`users/messages/new`, messageData, "POST")
+        return res
+      }
 }
 
 export default EventlyApi

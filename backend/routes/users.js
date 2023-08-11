@@ -176,4 +176,20 @@ router.post("/request/:recipient", ensureLoggedIn, async function (req, res, nex
     }
 })
 
+router.post("/messages/new", ensureLoggedIn, async function (req, res, next){
+    try{
+        const {group_id, user_id, content} = req.body;
+        console.log(res.locals.user, user_id)
+        if(res.locals.user.id == user_id){
+            let newMessage =  await User.sendMessage(user_id, group_id, content)
+            return res.json({newMessage})
+        }else{
+            throw new UnauthorizedError("must be logged on to send a message")
+        }
+           
+    }catch(err){
+        next(err)
+    }
+})
+
 module.exports = router;

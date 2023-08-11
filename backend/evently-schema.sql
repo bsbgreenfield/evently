@@ -87,7 +87,7 @@ CREATE TABLE Messages (
   group_id INT NOT NULL,
   sender_id INT NOT NULL,
   content TEXT NOT NULL,
-  timestamp text,
+  time_sent TIMESTAMP,
   FOREIGN KEY (group_id) REFERENCES Groups(id) ON DELETE CASCADE,
   FOREIGN KEY (sender_id) REFERENCES Users(id) ON DELETE CASCADE
 );

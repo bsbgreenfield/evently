@@ -26,8 +26,8 @@ function Homepage({groups, events}) {
                 </div>
                 <div className="HomeWrapper">
                 <div className="HomeGrid">
-                   <DispCard  header={"Groups"} data={groups} />
-                   <DispCard header={"Events"} data={events}/>
+                   <DispCard  header={"Groups"} data={groups}  currUser={currUser}/>
+                   <DispCard header={"Events"} data={events} currUser={currUser}/>
                 </div>
             </div>
             <Modal isOpen={modal} toggle={setModal}>

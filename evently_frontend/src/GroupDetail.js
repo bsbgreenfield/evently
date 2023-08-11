@@ -51,7 +51,7 @@ function GroupDetail({currUser}){
                 <header>{group.group_name}</header>
                 <UserBar users={group.members}/>
                 <div className="GroupDetailGrid">
-                    <MessageBoard messages={group.messages} currUser={currUser}/>
+                    <MessageBoard messages={group.messages} currUser={currUser} group_id={group.id}/>
                     <div className="Calendar">
                     <div className="invite-button" onClick={setModal}>
                         <span className="plus">+</span><span>&nbsp;Invite Users</span>

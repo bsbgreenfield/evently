@@ -12,7 +12,9 @@
     grid-column-start: 4;
     display: flex;
     flex-direction: column;
-    gap: 10vh;
+    gap: 3vh;
+    max-height: 70vh;
+    overflow-y: scroll;
 
 }
 .Attending-Tag{

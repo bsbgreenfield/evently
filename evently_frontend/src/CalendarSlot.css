@@ -1,8 +1,21 @@
-.date-aside{
-    position: absolute;
-    right: 0;
-    top: 0;
+.slot-wrapper{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border: 1px dotted black;
+    padding: 5px;
+}
+
+.slot-wrapper:hover{
+    cursor: pointer;
+    background-color: #efefef;
 }
 .CalendarSlot{
+    display: flex;
+    width: 20vw;
     position: relative;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2vh;
+    gap: 5vw;
 }

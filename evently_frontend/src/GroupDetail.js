@@ -44,7 +44,7 @@ function GroupDetail({currUser}){
           getGroupData()
     }, [])
   
-    if(group && events){
+    if(group && events && currUser){
         return(
             <>
              <div>
@@ -57,7 +57,7 @@ function GroupDetail({currUser}){
                         <span className="plus">+</span><span>&nbsp;Invite Users</span>
                     </div>
                             {events.events != 'pass' ?
-                            events.events.map(event => <CalendarSlot key={uuid()} event={event} selectEvent = {openEventModal}/>)
+                            events.events.map(event => <CalendarSlot key={uuid()} event={event} selectEvent = {openEventModal} currUser={currUser}/>)
                         : <div>No events yet</div>}
                     </div>
                 </div>
